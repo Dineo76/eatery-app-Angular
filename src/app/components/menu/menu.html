@@ -1,0 +1,14 @@
+<section class="menu" id="menu">
+    <h2>Our Kota Menu</h2>
+    <div class="menu-container">
+      @for (item of menuItems; track item.id) {
+        <div class="menu-card">
+          <h4>{{ item.name }}</h4>
+          <p class="description">{{ item.description }}</p>
+          <img [src]="item.imageUrl" [alt]="item.name" />
+          <p class="price">R{{ item.price.toFixed(2) }}</p>
+          <button (click)="cartService.addToCart(item)">Add to Cart</button>
+        </div>
+    }
+    </div>
+  </section>
