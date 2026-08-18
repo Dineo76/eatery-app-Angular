@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, model } from '@angular/core';
-import { MenuItem } from '../../model/cart';
-import { CartService } from '../../services/cart';
-import { Cart } from '../cart/cart';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, Cart],
+  imports: [CommonModule, RouterLink],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
 })
