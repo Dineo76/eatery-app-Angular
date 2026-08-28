@@ -1,33 +1,75 @@
+  <div class="cart-overlay" [class.open]="cartService.isCartOpen()" (click)="cartService.toggleCart()"></div>
+
 <div class="cart-drawer" [class.open]="cartService.isCartOpen()">
-    <div class="cart-header">
-      <h3>Your Cart</h3>
-      <button class="close-btn" (click)="cartService.toggleCart()">✕</button>
-    </div>
-
-    <div class="cart-body">
-      @if (cartService.cart().length === 0) {
-        <p class="empty-msg">Your cart is empty.</p>
-      } @else {
-        @for (cartItem of cartService.cart(); track cartItem.item.id) {
-          <div class="cart-item">
-            <img [src]="cartItem.item.imageUrl" [alt]="cartItem.item.name" />
-            <div class="item-details">
-              <h5>{{ cartItem.item.name }}</h5>
-              <p>R{{ cartItem.item.price.toFixed(2) }}</p>
-              <div class="quantity-controls">
-                <button (click)="cartService.decrementQuantity(cartItem.item.id)">-</button>
-                <span>{{ cartItem.quantity }}</span>
-                <button (click)="cartService.incrementQuantity(cartItem.item.id)">+</button>
-              </div>
-            </div>
-            <button class="remove-btn" (click)="cartService.removeFromCart(cartItem.item.id)">✕</button>
-          </div>
-        }
-      }
-    </div>
-
-    <div class="cart-footer">
-      <h4>Total: <span>R{{ cartService.cartTotal().toFixed(2) }}</span></h4>
-      <button class="checkout-btn" [disabled]="cartService.cart().length === 0">Checkout</button>
-    </div>
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button mat-icon-button (click)="cartService.toggleCart()" aria-label="Close cart">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
+
+  <div class="cart-body">
+    @if (cartService.cart().length === 0) {
+      <div class="empty-cart-state">
+        <mat-icon class="empty-icon">shopping_cart</mat-icon>
+        <p class="empty-msg">Your cart is currently empty.</p>
+      </div>
+    } @else {
+      @for (cartItem of cartService.cart(); track cartItem.item.id) {
+        <div class="cart-item">
+          <img [src]="cartItem.item.imageUrl" [alt]="cartItem.item.name" class="cart-item-img" />
+          
+          <div class="item-details">
+            <h5 class="item-title">{{ cartItem.item.name }}</h5>
+            <p class="item-price">R{{ cartItem.item.price.toFixed(2) }}</p>
+            
+            <div class="quantity-controls">
+              <button 
+                mat-icon-button 
+                color="primary" 
+                class="qty-btn"
+                (click)="cartService.decrementQuantity(cartItem.item.id)"
+                aria-label="Decrease quantity">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>
+
+              <span class="quantity-count">{{ cartItem.quantity }}</span>
+
+              <button 
+                mat-icon-button 
+                color="primary" 
+                class="qty-btn"
+                (click)="cartService.incrementQuantity(cartItem.item.id)"
+                aria-label="Increase quantity">
+                <mat-icon>add_circle_outline</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <button 
+            mat-icon-button 
+            color="warn" 
+            (click)="cartService.removeFromCart(cartItem.item.id)" 
+            aria-label="Remove item">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+        <mat-divider></mat-divider>
+      }
+    }
+  </div>
+
+  <div class="cart-footer">
+    <div class="total-row">
+      <span>Total:</span>
+      <span class="total-amount">R{{ cartService.cartTotal().toFixed(2) }}</span>
+    </div>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      class="checkout-btn" 
+      [disabled]="cartService.cart().length === 0">
+      Checkout
+    </button>
+  </div>
+</div>

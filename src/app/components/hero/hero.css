@@ -1,64 +1,84 @@
 .home {
-    background-image: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
     url('https://images.pexels.com/photos/21821567/pexels-photo-21821567.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-style: italic;
-    color: white;
-  }
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-style: italic;
+  color: white;
+  padding: 0 20px;
+}
 
+.home-content h1 {
+  font-size: 65px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.home-content p {
+  font-size: 20px;
+  width: 650px;
+  max-width: 90%;
+  margin: 0 auto 25px auto;
+  line-height: 1.8;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Material Field Customizations to match dark hero background */
+.search-box ::ng-deep .mat-mdc-form-field {
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.search-box ::ng-deep .mat-mdc-text-field-wrapper {
+  border-radius: 8px !important;
+}
+
+.search-box ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none; /* Removes sub-text/error padding spacing */
+}
+
+.address-field {
+  width: 450px;
+  max-width: 100%;
+}
+
+.option-field {
+  width: 210px;
+  max-width: 100%;
+}
+
+.find-food-btn {
+  height: 56px !important;
+  padding: 0 28px !important;
+  font-size: 17px !important;
+  font-weight: bold !important;
+  border-radius: 8px !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
   .home-content h1 {
-     font-size: 65px; 
-     margin-bottom: 15px;
-     }
-
-  .home-content p { 
-    font-size: 20px; 
-    width: 650px; 
-    max-width: 90%; 
-    margin-bottom: 25px; 
-    line-height: 1.8; 
-}
-
-  .search-box { 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 10px; 
-    flex-wrap: wrap; 
-}
-
-  .search-box input { 
-width: 500px; 
-height: 55px; 
-padding: 0 20px;
- border-radius: 8px; 
- border: none;
-  font-size: 17px; 
-}
-
-  .search-box select {
-     width: 180px; 
-     height: 55px; 
-     border-radius: 8px; 
-     border: none; 
-     padding: 0 15px; 
-     font-size: 17px; 
-    }
-
-  .search-box button { 
-    height: 55px; 
-    padding: 0 28px;
-    border: none; 
-    border-radius: 8px; 
-    background: #000; 
-    color: #fff; 
-    font-size: 17px; 
-    font-weight: bold; 
-    cursor: pointer; 
+    font-size: 40px;
+  }
+  .home-content p {
+    font-size: 16px;
+  }
+  .address-field, .option-field, .find-food-btn {
+    width: 100% !important;
+  }
 }

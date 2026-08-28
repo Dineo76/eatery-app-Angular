@@ -1,16 +1,60 @@
 .contacts { 
-background-color: #eef5ef;
-text-align: center; 
-padding: 80px; 
-color: #2f855a; 
-}
-   
-.contacts h2 { 
-font-size: 40px;
- margin-bottom: 30px; 
-}
-    
-.contacts p { 
-margin: 15px 0; 
-font-size: 18px; 
-}
+    background-color: #eef5ef;
+    text-align: center; 
+    padding: 80px 20px; 
+    color: #2f855a; 
+  }
+  
+  .contacts-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .contacts h2 { 
+    font-size: 40px;
+    margin-bottom: 30px; 
+    font-weight: 700;
+  }
+  
+  .contact-card {
+    background-color: #ffffff !important;
+    border-radius: 12px !important;
+    border-color: #d8e8dc !important;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+  
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .info-item { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0; 
+    font-size: 18px; 
+    color: #2f855a;
+  }
+  
+  .info-item mat-icon {
+    color: #2f855a;
+  }
+  
+  @media (max-width: 600px) {
+    .contacts {
+      padding: 40px 15px;
+    }
+  
+    .contacts h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+  
+    .info-item {
+      font-size: 16px;
+    }
+  }

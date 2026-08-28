@@ -1,4 +1,4 @@
-<footer class="footer">
+<!-- <footer class="footer">
     <div class="footer-container">
       <div>
         <h3>The Eatery</h3>
@@ -22,4 +22,38 @@
     </div>
     <hr />
     <p class="copyright">© 2026 The Eatery. All Rights Reserved.</p>
+  </footer> -->
+
+  <footer class="footer">
+    <mat-divider></mat-divider>
+    
+    <div class="footer-container">
+      <div class="footer-section brand-section">
+        <h3>The Eatery</h3>
+        <p>Feed your kota cravings.</p>
+      </div>
+  
+      <div class="footer-section links-section">
+        <h3>Quick Links</h3>
+        <nav class="quick-links">
+          <a mat-button routerLink="/">Home</a>
+          <a mat-button routerLink="/about">About</a>
+          <a mat-button routerLink="/menu">Menu</a>
+          <a mat-button routerLink="/contact">Contact</a>
+        </nav>
+      </div>
+  
+      <div class="footer-section social-section">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a mat-button href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+          <a mat-button href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+          <a mat-button href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a>
+        </div>
+      </div>
+    </div>
+  
+    <mat-divider></mat-divider>
+  
+    <p class="copyright">© {{ currentYear }} The Eatery. All Rights Reserved.</p>
   </footer>

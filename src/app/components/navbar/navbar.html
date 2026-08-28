@@ -1,15 +1,31 @@
-<nav class="navbar">
-  <div class="logo">
-    <a routerLink="/">The Eatery</a>
-  </div>
-  <ul class="nav-links">
-    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-    <li><a routerLink="/menu" routerLinkActive="active">Menu</a></li>
-    <li><a routerLink="/about" routerLinkActive="active">About</a></li>
-    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
-    <li><a routerLink="/signin" routerLinkActive="active">Sign In</a></li>
-  </ul>
-  <button class="cart-btn" (click)="cartService.toggleCart()">
-    Cart ({{ cartService.cartCount() }})
-  </button>
-</nav>
+<mat-toolbar color="primary" class="navbar">
+  <span class="logo" routerLink="/">The Eatery</span>
+
+  <span class="spacer"></span>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a mat-button routerLink="/menu" routerLinkActive="active">Menu</a>
+    <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+    <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
+
+    <!-- Cart Button with Live Badge Count -->
+    <button mat-icon-button (click)="cartService.toggleCart()" aria-label="Open Shopping Cart">
+      <mat-icon 
+        [matBadge]="cartService.cartCount()" 
+        [matBadgeHidden]="cartService.cartCount() === 0" 
+        matBadgeColor="accent">
+        shopping_cart
+      </mat-icon>
+    </button>
+
+    @if (currentUser) {
+      <span class="user-greeting">Hi, {{ currentUser.fullName }}</span>
+      <button mat-stroked-button color="warn" (click)="onLogout()">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+    } @else {
+      <a mat-raised-button color="accent" routerLink="/signin">Sign In</a>
+    }
+  </nav>
+</mat-toolbar>

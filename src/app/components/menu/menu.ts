@@ -1,18 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MenuItem } from '../../model/cart';
 import { CartService } from '../../services/cart';
-
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl:'./menu.html',
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule
+  ],
+  templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
 export class Menu {
-
   cartService = inject(CartService);
 
   menuItems: MenuItem[] = [
@@ -21,4 +27,8 @@ export class Menu {
     { id: 3, name: 'Number 10', description: 'It comes with chips, polony and atchar', price: 40, imageUrl: '/number10.png' },
     { id: 4, name: 'Number 15', description: 'It comes with chips, pork-rib, half done egg', price: 50, imageUrl: '/number15.png' }
   ];
+
+  addToCart(item: MenuItem): void {
+    this.cartService.addToCart(item);
+  }
 }

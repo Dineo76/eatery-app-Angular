@@ -1,15 +1,25 @@
 <section class="home" id="home">
-    <div class="home-content">
-      <h1>Order delivery near you</h1>
-      <p>Welcome to The Eatery. Order the best kotas in town.</p>
+  <div class="home-content">
+    <h1>Order delivery near you</h1>
+    <p>Welcome to The Eatery. Order the best kotas in town.</p>
 
-      <div class="search-box">
-        <input type="text" placeholder="Enter delivery address">
-        <select>
-          <option>Deliver now</option>
-          <option>Schedule for delivery</option>
-        </select>
-        <button>Find Food</button>
-      </div>
+    <div class="search-box">
+      <mat-form-field appearance="outline" class="address-field">
+        <mat-label>Enter delivery address</mat-label>
+        <mat-icon matPrefix>location_on</mat-icon>
+        <input matInput [(ngModel)]="deliveryAddress" placeholder="e.g. 123 Main St" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="option-field">
+        <mat-select [(ngModel)]="deliveryOption">
+          <mat-option value="now">Deliver now</mat-option>
+          <mat-option value="schedule">Schedule for delivery</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" class="find-food-btn">
+        <mat-icon>search</mat-icon> Find Food
+      </button>
     </div>
-  </section>
+  </div>
+</section>
