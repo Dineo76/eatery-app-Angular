@@ -1,13 +1,59 @@
-<section class="about" id="about">
+<section class="about-section" id="about">
   <div class="about-container">
-    <h2>About The Eatery</h2>
     
-    <mat-card appearance="outlined" class="about-card">
-      <mat-card-content class="about-content">
-        <p>The Eatery was established in 2021 with a passion for serving delicious, freshly prepared kotas made from quality ingredients.</p>
-        <p>Our mission is to satisfy every kota lover by providing fast, reliable, and affordable food delivery.</p>
-        <p>At The Eatery, customer satisfaction is at the heart of everything we do.</p>
+    <!-- Hero Header -->
+    <div class="about-header">
+      <h2 class="about-title">About The Eatery</h2>
+      <p class="about-subtitle">Serving authentic, handcrafted kotas straight to your doorstep.</p>
+    </div>
+
+    <!-- Main Story Card -->
+    <mat-card appearance="outlined" class="about-card main-story">
+      <mat-card-content class="story-content">
+        <h3>Our Story</h3>
+        <p>
+          Established in 2021, <strong>The Eatery</strong> was born out of a deep passion for local street cuisine and a goal to elevate the iconic township kota. What started as a small kitchen experiment quickly grew into a neighborhood favorite.
+        </p>
+        <p>
+          We take pride in using only fresh, locally sourced ingredients—from hot crispy chips and classic atchar to premium meats and rich sauces—ensuring every bite delivers maximum flavor and quality.
+        </p>
       </mat-card-content>
     </mat-card>
+
+    <!-- Core Values Section -->
+    <div class="values-grid">
+      <mat-card appearance="outlined" class="value-card">
+        <mat-card-content>
+          <mat-icon class="value-icon">local_fire_department</mat-icon>
+          <h4>Fresh & Hot</h4>
+          <p>Every order is prepared fresh on demand using top-grade ingredients to guarantee hot, satisfying meals.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="value-card">
+        <mat-card-content>
+          <mat-icon class="value-icon">speed</mat-icon>
+          <h4>Fast Delivery</h4>
+          <p>We know the craving is real! Our efficient kitchen setup and delivery workflow get your order to you quickly.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="value-card">
+        <mat-card-content>
+          <mat-icon class="value-icon">favorite</mat-icon>
+          <h4>Community First</h4>
+          <p>Customer satisfaction is at the heart of everything we do. We build lasting relationships with every meal served.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Bottom CTA Banner -->
+    <div class="about-cta">
+      <h3>Ready to satisfy your cravings?</h3>
+      <a mat-raised-button color="accent" routerLink="/menu" class="cta-btn">
+        <mat-icon>restaurant_menu</mat-icon> Explore Our Menu
+      </a>
+    </div>
+
   </div>
 </section>

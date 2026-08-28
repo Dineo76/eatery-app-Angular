@@ -1,64 +1,80 @@
+/* Base Toolbar Layout */
 .navbar {
-  background-color: white;
-  color: #2f855a;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: large;
-  padding: 10px 80px;
+  background-color: var(--primary-color) !important;
+  color: #ffffff;
   position: sticky;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-}
-
-.logo a { 
-  font-size: 30px; 
-  font-weight: bold;
-  text-decoration: none;
-  color: #2f855a;
-}
-
-.nav-links { 
-  display: flex; 
-  list-style: none;
-  gap: 20px; 
-  align-items: center;
-  margin: 0; 
-  padding: 0; 
-}
-
-.nav-links li a { 
-  text-decoration: none;
-  color: #2f855a; 
-  font-weight: bold; 
-  transition: color 0.3s ease; 
-}
-
-.nav-links li a:hover { 
-  color: gold; 
-}
-
-/* Style for active routerLink */
-.nav-links li a.active {
-  color: gold;
-  
-}
-
-.cart-btn {
-  background: #2f855a;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
+  z-index: 997;
+  box-shadow: var(--shadow-sm);
+  padding: 0 24px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: background-color 0.3s ease;
+  height: 64px;
 }
 
-.cart-btn:hover {
-  background: #236845;
+/* Brand Logo */
+.logo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+  color: #ffffff;
+  user-select: none;
+}
+
+/* Flex Spacer */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Navigation Links Container */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Standard Nav Buttons */
+.nav-links a[mat-button] {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  border-radius: var(--border-radius-btn);
+  transition: var(--transition-smooth);
+}
+
+.nav-links a[mat-button]:hover,
+.nav-links a[mat-button].active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* User Greeting Text */
+.user-greeting {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 4px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Action Buttons (Sign In / Logout) */
+.nav-links button[mat-stroked-button] {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  color: #ffffff !important;
+  border-radius: var(--border-radius-btn);
+}
+
+.nav-links button[mat-stroked-button]:hover {
+  background-color: rgba(229, 62, 62, 0.2) !important;
+  border-color: var(--accent-color) !important;
+}
+
+/* Responsive Handling */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+  }
+  
+  .user-greeting {
+    display: none;
+  }
 }

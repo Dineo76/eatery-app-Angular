@@ -1,24 +1,93 @@
 <section class="contacts" id="contacts">
   <div class="contacts-container">
-    <h2>Contact Us</h2>
+    <h2 class="contacts-title">Get in Touch</h2>
+    <p class="contacts-subtitle">We'd love to hear from you! Send us a message or visit us in Johannesburg.</p>
 
-    <mat-card appearance="outlined" class="contact-card">
-      <mat-card-content class="contact-info">
-        <p class="info-item">
-          <mat-icon>email</mat-icon>
-          <span>Email: info&#64;theeatery.com</span>
-        </p>
+    <div class="contacts-grid">
+      <!-- Contact Details & Hours Card -->
+      <div class="info-column">
+        <mat-card appearance="outlined" class="contact-card">
+          <mat-card-header>
+            <mat-card-title class="card-title">Contact Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="contact-info">
+            <div class="info-item">
+              <mat-icon>email</mat-icon>
+              <a href="mailto:info@theeatery.com">info&#64;theeatery.com</a>
+            </div>
 
-        <p class="info-item">
-          <mat-icon>phone</mat-icon>
-          <span>Phone: +27 12 345 6789</span>
-        </p>
+            <div class="info-item">
+              <mat-icon>phone</mat-icon>
+              <a href="tel:+27123456789">+27 12 345 6789</a>
+            </div>
 
-        <p class="info-item">
-          <mat-icon>location_on</mat-icon>
-          <span>Johannesburg, South Africa</span>
-        </p>
-      </mat-card-content>
-    </mat-card>
+            <div class="info-item">
+              <mat-icon>location_on</mat-icon>
+              <span>123 Main Street, Braamfontein, Johannesburg</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="contact-card">
+          <mat-card-header>
+            <mat-card-title class="card-title">Operating Hours</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="hours-info">
+            <div class="hours-row">
+              <span class="day">Mon - Thu:</span>
+              <span class="time">09:00 AM - 07:00 PM</span>
+            </div>
+            <div class="hours-row">
+              <span class="day">Fri - Sat:</span>
+              <span class="time">09:00 AM - 09:00 PM</span>
+            </div>
+            <div class="hours-row">
+              <span class="day">Sunday:</span>
+              <span class="time">10:00 AM - 05:00 PM</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Quick Message Form -->
+      <mat-card appearance="outlined" class="contact-card form-card">
+        <mat-card-header>
+          <mat-card-title class="card-title">Send a Message</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Your Name</mat-label>
+              <input matInput formControlName="name" placeholder="Dineo Makofane" />
+              @if (contactForm.get('name')?.hasError('required')) {
+                <mat-error>Name is required</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email Address</mat-label>
+              <input matInput formControlName="email" type="email" placeholder="dineo@gmail.com" />
+              @if (contactForm.get('email')?.hasError('required')) {
+                <mat-error>Email is required</mat-error>
+              } @else if (contactForm.get('email')?.hasError('email')) {
+                <mat-error>Enter a valid email address</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Message</mat-label>
+              <textarea matInput formControlName="message" rows="4" placeholder="How can we help you?"></textarea>
+              @if (contactForm.get('message')?.hasError('required')) {
+                <mat-error>Message is required</mat-error>
+              }
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="contactForm.invalid" class="submit-btn">
+              <mat-icon>send</mat-icon> Send Message
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </section>

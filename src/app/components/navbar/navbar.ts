@@ -1,16 +1,21 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import { AuthService } from '../../services/auth-services';
 import { CartService } from '../../services/cart';
+
+interface User {
+  fullName: string;
+}
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     RouterLinkActive,
     MatToolbarModule,
@@ -22,16 +27,15 @@ import { CartService } from '../../services/cart';
   styleUrl: './navbar.css'
 })
 export class Navbar {
-  authService = inject(AuthService);
   cartService = inject(CartService);
   private router = inject(Router);
 
-  get currentUser() {
-    return this.authService.getCurrentUser();
-  }
+  // Example current user state - replace with your AuthService signals/observables
+  currentUser: User | null = null;
 
   onLogout(): void {
-    this.authService.logout();
+    // Add authentication logout logic here (e.g., authService.logout())
+    this.currentUser = null;
     this.router.navigate(['/signin']);
   }
 }
