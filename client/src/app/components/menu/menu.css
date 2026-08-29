@@ -1,3 +1,4 @@
+/* Layout & Container */
 .menu-section {
   padding: 30px 16px;
   background-color: var(--bg-light);
@@ -8,6 +9,7 @@
   margin: 0 auto;
 }
 
+/* Titles */
 .menu-title {
   font-size: 1.75rem;
   font-weight: 700;
@@ -23,14 +25,14 @@
   margin: 0 0 24px 0;
 }
 
-/* Compact Grid Layout */
+/* Grid Layout */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 16px;
 }
 
-/* Compact Menu Card */
+/* Menu Card Base & Hover */
 .menu-card {
   display: flex;
   flex-direction: column;
@@ -47,7 +49,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Reduced Image Height */
+/* Image & Price Badge */
 .card-image-wrapper {
   position: relative;
   width: 100%;
@@ -63,7 +65,6 @@
   margin: 0 !important;
 }
 
-/* Smaller Floating Price Badge */
 .price-badge {
   position: absolute;
   top: 8px;
@@ -77,7 +78,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Card Content Adjustments */
+/* Card Header & Content */
 mat-card-header {
   padding: 10px 12px 4px 12px !important;
 }
@@ -100,18 +101,31 @@ mat-card-header {
   line-height: 1.4;
 }
 
-/* Compact Button */
+/* Card Actions & Custom Green Add Button (#236845) */
 .card-actions {
   padding: 8px 12px 10px 12px !important;
 }
 
-.add-btn {
+.add-btn,
+.card-actions .add-btn.mat-mdc-raised-button.mat-primary,
+.card-actions button[mat-raised-button] {
+  --mdc-protected-button-container-color: #236845 !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
   width: 100%;
   height: 34px !important;
   line-height: 34px !important;
   font-size: 0.82rem !important;
   font-weight: 600 !important;
   border-radius: 6px !important;
+  background-color: #236845 !important;
+  color: #ffffff !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.add-btn:hover,
+.card-actions .add-btn.mat-mdc-raised-button.mat-primary:hover,
+.card-actions button[mat-raised-button]:hover {
+  background-color: #1b5236 !important;
 }
 
 .add-btn mat-icon {
@@ -121,6 +135,7 @@ mat-card-header {
   margin-right: 4px !important;
 }
 
+/* Responsive Breakpoints */
 @media (max-width: 500px) {
   .menu-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

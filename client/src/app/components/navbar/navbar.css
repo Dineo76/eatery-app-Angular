@@ -68,6 +68,16 @@
   border-color: var(--accent-color) !important;
 }
 
+/* sigin buttons */
+a[routerLink="/signin"] {
+  background-color: #236845 !important;
+  color: #ffffff !important;
+}
+
+a[routerLink="/signin"]:hover {
+  background-color: #1b5236 !important; /* Slightly darker shade on hover */
+}
+
 /* Responsive Handling */
 @media (max-width: 768px) {
   .navbar {

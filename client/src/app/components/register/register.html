@@ -1,29 +1,3 @@
-<!-- <div class="auth-container">
-    <h2>Create an Account</h2>
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" name="fullName" [(ngModel)]="fullName" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" [(ngModel)]="email" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)]="password" required />
-      </div>
-  
-      <button type="submit" class="auth-btn">Register</button>
-    </form>
-  
-    <div class="auth-links">
-      <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
-    </div>
-  </div> -->
-
   <div class="auth-container">
     <h2>Create an Account</h2>
   
@@ -47,9 +21,9 @@
         <input matInput type="password" name="password" [(ngModel)]="password" required />
       </mat-form-field>
   
-      <button mat-raised-button color="primary" type="submit" class="full-width">
-        Register
-      </button>
+      <button mat-raised-button type="submit" class="full-width register-btn">
+  Register
+</button>
     </form>
   
     <div class="auth-links">

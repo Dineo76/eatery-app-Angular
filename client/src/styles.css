@@ -41,3 +41,14 @@
   .mat-mdc-outlined-button {
     border-radius: var(--border-radius-btn) !important;
   }
+  /* Prevent collapsible section margins */
+section {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+section > h1:first-child,
+section > h2:first-child,
+section > div:first-child {
+  margin-top: 0;
+}

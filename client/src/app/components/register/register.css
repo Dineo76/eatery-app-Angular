@@ -1,108 +1,100 @@
-/* .auth-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .auth-container h2 {
-    color: #2f855a;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .form-group input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .auth-btn {
-    width: 100%;
-    padding: 12px;
-    background: #2f855a;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  .auth-btn:hover {
-    background: #236845;
-  }
-  
-  .auth-links {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .auth-links a {
-    color: #2f855a;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .auth-links a:hover {
-    color: gold;
-  } */
+/* Container & Layout */
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
 
-  .auth-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 30px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .auth-container h2 {
-    color: #2f855a;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .full-width {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .error-text {
-    color: #f44336;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  
-  .auth-links {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .auth-links a {
-    color: #2f855a;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .auth-links a:hover {
-    color: gold;
-  }
+.auth-container h2 {
+  color: #236845;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.error-text {
+  color: #f44336;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Angular Material Form Fields & Labels - Custom Green (#236845) */
+.auth-container ::ng-deep .mat-mdc-form-field {
+  --mdc-outlined-text-field-focus-outline-color: #236845;
+  --mdc-outlined-text-field-focus-label-text-color: #236845;
+  --mat-mdc-form-field-floating-label-style-color: #236845;
+}
+
+/* Label color when field is focused */
+.auth-container ::ng-deep .mdc-text-field--focused .mdc-floating-label,
+.auth-container ::ng-deep .mdc-text-field--focused .mat-mdc-floating-label {
+  color: #236845 !important;
+}
+
+/* Outline border color when focused */
+.auth-container ::ng-deep .mdc-text-field--focused .mdc-notched-outline__leading,
+.auth-container ::ng-deep .mdc-text-field--focused .mdc-notched-outline__notch,
+.auth-container ::ng-deep .mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #236845 !important;
+}
+
+/* Caret / Blinking Cursor Color */
+.auth-container ::ng-deep .mat-mdc-form-field .mat-mdc-input-element {
+  caret-color: #236845;
+}
+
+/* Red Styles for Error / Invalid States */
+.auth-container ::ng-deep .mat-form-field-invalid .mdc-floating-label,
+.auth-container ::ng-deep .mat-form-field-invalid .mat-mdc-floating-label {
+  color: #f44336 !important;
+}
+
+.auth-container ::ng-deep .mat-form-field-invalid .mdc-notched-outline__leading,
+.auth-container ::ng-deep .mat-form-field-invalid .mdc-notched-outline__notch,
+.auth-container ::ng-deep .mat-form-field-invalid .mdc-notched-outline__trailing {
+  border-color: #f44336 !important;
+}
+
+.auth-container ::ng-deep .mat-form-field-invalid .mat-mdc-input-element {
+  caret-color: #f44336;
+}
+
+/* Custom Green Register Button */
+.register-btn,
+button[mat-raised-button].register-btn {
+  --mdc-protected-button-container-color: #236845 !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
+  background-color: #236845 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.register-btn:hover,
+button[mat-raised-button].register-btn:hover {
+  background-color: #1b5236 !important;
+}
+
+/* Auth Links */
+.auth-links {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.auth-links a {
+  color: #236845;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.auth-links a:hover {
+  color: #1b5236;
+}

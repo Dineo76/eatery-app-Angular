@@ -1,19 +1,19 @@
 import {
+  coerceArray
+} from "./chunk-DYT3SPYG.js";
+import {
   _VisuallyHiddenLoader,
   _setInnerHtml
 } from "./chunk-ECGNECQB.js";
 import {
-  coerceArray
-} from "./chunk-DYT3SPYG.js";
+  DomSanitizer
+} from "./chunk-ATLKYQWE.js";
 import {
   _getEventTarget,
   _getFocusedElementPierceShadowDom,
   _getShadowRoot,
   normalizePassiveListenerOptions
 } from "./chunk-TOVKXIG2.js";
-import {
-  DomSanitizer
-} from "./chunk-ATLKYQWE.js";
 import {
   _CdkPrivateStyleLoader
 } from "./chunk-FLFLFF2F.js";
@@ -2608,4 +2608,4 @@ export {
   AriaDescriber,
   _animationsDisabled
 };
-//# sourceMappingURL=chunk-5SO7SCUM.js.map
+//# sourceMappingURL=chunk-R53KC4UX.js.map
