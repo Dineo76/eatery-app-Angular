@@ -2,10 +2,10 @@ import {
   coerceBooleanProperty
 } from "./chunk-LR34GQVG.js";
 import "./chunk-DYT3SPYG.js";
-import "./chunk-5RM5I2PN.js";
 import {
   BidiModule
-} from "./chunk-JTNY4UWF.js";
+} from "./chunk-3Z3SYKVB.js";
+import "./chunk-NQDVVJBK.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,7 +18,8 @@ import {
   ɵɵdefineComponent,
   ɵɵdefineInjector,
   ɵɵdefineNgModule
-} from "./chunk-AISXR7VS.js";
+} from "./chunk-AHTLDOV6.js";
+import "./chunk-I4ET5GYE.js";
 
 // ../node_modules/@angular/material/fesm2022/divider.mjs
 var MatDivider = class _MatDivider {
