@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { Hero } from './components/hero/hero';
-import { Menu } from './components/menu/menu';
-import { About } from './components/about/about';
-import { Contacts } from './components/contacts/contacts';
-import { Signin } from './components/signin/signin';
-import { Register } from './components/register/register';
-import { ForgotPassword } from './components/forgot-password/forgot-password';
+import { Hero } from './features/home/hero/hero';
+import { Menu } from './features/menu/menu';
+import { About } from './features/home/about/about';
+import { Contacts } from './features/contacts/contacts';
+import { Signin } from './features/auth/signin/signin';
+import { Register } from './features/auth/register/register';
+import { ForgotPassword } from './features/auth/forgot-password/forgot-password';
 
 export const routes: Routes = [
   { path: '', component: Hero },
