@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MenuItem } from '../../shared/model/cart';
 import { CartService } from '../../shared/services/cart.service';
+import { AuthService } from '../../core/services/auth-services';
 
 @Component({
   selector: 'app-menu',
@@ -13,13 +16,17 @@ import { CartService } from '../../shared/services/cart.service';
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
 export class Menu {
   cartService = inject(CartService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
 
   menuItems: MenuItem[] = [
     {
@@ -81,6 +88,26 @@ export class Menu {
   ];
 
   addToCart(item: MenuItem): void {
+    // Check if user is logged in
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('Please register or sign in to add items to your cart.', 'Register Now', {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'center', // Sets Angular Material base centering
+        panelClass: ['snack-warning', 'center-toast-container'] // Custom theme styling + center positioning
+      }).onAction().subscribe(() => {
+        this.router.navigate(['/register']);
+      });
+      return;
+    }
+
+    // Add item if user is logged in
     this.cartService.addToCart(item);
+    this.snackBar.open(`${item.name} added to cart!`, 'Close', { 
+      duration: 2500,
+      horizontalPosition: 'center',
+      verticalPosition: 'center',
+      panelClass: ['snack-success', 'center-toast-container']
+    });
   }
 }

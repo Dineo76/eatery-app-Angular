@@ -52,3 +52,57 @@ section > h2:first-child,
 section > div:first-child {
   margin-top: 0;
 }
+/* Ensure global snackbar positioning and theme styling */
+
+/* Center the SnackBar container vertically and horizontally */
+.mat-mdc-snack-bar-container.center-toast-container {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  z-index: 10000 !important;
+}
+
+/* Warning Toast Style (Theme Gold/Amber or Brand Dark Green Accent) */
+.snack-warning .mdc-snackbar__surface {
+  background-color: #2f855a !important; /* KwaJozi primary brand green */
+  border: 2px solid #236845 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+  padding: 8px 12px !important;
+}
+
+.snack-warning .mdc-snackbar__label {
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.snack-warning .mat-mdc-snack-bar-action {
+  color: #fbd38d !important; /* Gold highlight for the 'Register Now' button */
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Success Toast Style */
+.snack-success .mdc-snackbar__surface {
+  background-color: #2f855a !important; /* KwaJozi primary brand green */
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+  padding: 8px 12px !important;
+}
+
+.snack-success .mdc-snackbar__label {
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+.snack-success .mat-mdc-snack-bar-action {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
