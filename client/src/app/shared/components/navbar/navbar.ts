@@ -6,10 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CartService } from '../../services/cart.service';
-
-interface User {
-  fullName: string;
-}
+import { AuthService } from '../../../core/services/auth-services';
 
 @Component({
   selector: 'app-navbar',
@@ -28,14 +25,11 @@ interface User {
 })
 export class Navbar {
   cartService = inject(CartService);
+  authService = inject(AuthService); // Inject AuthService
   private router = inject(Router);
 
-  // Example current user state - replace with your AuthService signals/observables
-  currentUser: User | null = null;
-
   onLogout(): void {
-    // Add authentication logout logic here (e.g., authService.logout())
-    this.currentUser = null;
+    this.authService.logout(); // Clears localStorage & resets currentUser signal
     this.router.navigate(['/signin']);
   }
 }

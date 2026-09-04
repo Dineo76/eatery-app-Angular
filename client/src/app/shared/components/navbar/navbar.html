@@ -19,10 +19,11 @@
       </mat-icon>
     </button>
 
-    @if (currentUser) {
-      <span class="user-greeting">Hi, {{ currentUser.fullName }}</span>
-      <button mat-stroked-button color="warn" (click)="onLogout()">
-        <mat-icon>logout</mat-icon> Logout
+    @if (authService.currentUser()) {
+      <span class="user-greeting">Hi, {{ authService.currentUser()?.full_name }}</span>
+      <button mat-stroked-button class="logout-btn" (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
       </button>
     } @else {
       <a mat-raised-button color="accent" routerLink="/signin">Sign In</a>

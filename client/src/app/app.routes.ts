@@ -9,7 +9,7 @@ import { ForgotPassword } from './features/auth/forgot-password/forgot-password'
 
 export const routes: Routes = [
   { path: '', component: Hero },
-  { path: 'menu', component: Menu },
+  { path: 'menu', component: Menu},
   { path: 'about', component: About },
   { path: 'contact', component: Contacts },
   { path: 'signin', component: Signin },

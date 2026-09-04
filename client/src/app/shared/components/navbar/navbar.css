@@ -88,3 +88,28 @@ a[routerLink="/signin"]:hover {
     display: none;
   }
 }
+
+.logout-btn {
+  background-color: #e53e3e !important;
+  border: none !important;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.logout-btn .mdc-button__label,
+.logout-btn mat-icon {
+  color: #ffffff !important;
+}
+
+.logout-btn mat-icon {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 6px !important;
+  vertical-align: middle;
+}
+
+/* Hover effect */
+.logout-btn:hover {
+  background-color: #c53030 !important;
+}

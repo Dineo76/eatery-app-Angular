@@ -1,41 +1,4 @@
-// import { Component } from '@angular/core';
-// import { FormsModule } from '@angular/forms';
-// import { Router, RouterLink } from '@angular/router';
-// import { AuthService } from '../../services/auth-services'
-
-// @Component({
-//   selector: 'app-register',
-//   standalone: true,
-//   imports: [FormsModule, RouterLink],
-//   templateUrl: './register.html',
-//   styleUrl: './register.css'
-// })
-// export class Register {
-//   fullName = '';
-//   email = '';
-//   password = '';
-//   errorMessage = '';
-
-//   constructor(private authService: AuthService, private router: Router) {}
-
-//   onSubmit(): void {
-//     if (!this.fullName || !this.email || !this.password) {
-//       this.errorMessage = 'Please fill in all fields.';
-//       return;
-//     }
-
-//     const success = this.authService.register(this.fullName, this.email, this.password);
-
-//     if (success) {
-//       alert('Account created successfully! Please sign in.');
-//       this.router.navigate(['/signin']);
-//     } else {
-//       this.errorMessage = 'An account with this email already exists.';
-//     }
-//   }
-// }
-
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -57,12 +20,13 @@ import { AuthService } from '../../../core/services/auth-services';
   styleUrl: './register.css'
 })
 export class Register {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   fullName = '';
   email = '';
   password = '';
   errorMessage = '';
-
-  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
     if (!this.fullName || !this.email || !this.password) {
@@ -70,13 +34,17 @@ export class Register {
       return;
     }
 
-    const success = this.authService.register(this.fullName, this.email, this.password);
+    this.errorMessage = '';
 
-    if (success) {
-      alert('Account created successfully! Please sign in.');
-      this.router.navigate(['/signin']);
-    } else {
-      this.errorMessage = 'An account with this email already exists.';
-    }
+    this.authService.register(this.fullName, this.email, this.password).subscribe({
+      next: () => {
+        // Automatically logs in upon registration and navigates to /menu
+        this.router.navigate(['/menu']);
+      },
+      error: (err) => {
+        // Catches "Email is already registered" or other backend 400/500 errors
+        this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
+      }
+    });
   }
 }
