@@ -93,7 +93,7 @@ export class Menu {
       this.snackBar.open('Please register or sign in to add items to your cart.', 'Register Now', {
         duration: 4000,
         horizontalPosition: 'center',
-        verticalPosition: 'center', // Sets Angular Material base centering
+        verticalPosition: 'top', // Sets Angular Material base positioning
         panelClass: ['snack-warning', 'center-toast-container'] // Custom theme styling + center positioning
       }).onAction().subscribe(() => {
         this.router.navigate(['/register']);
@@ -106,7 +106,7 @@ export class Menu {
     this.snackBar.open(`${item.name} added to cart!`, 'Close', { 
       duration: 2500,
       horizontalPosition: 'center',
-      verticalPosition: 'center',
+      verticalPosition: 'top',
       panelClass: ['snack-success', 'center-toast-container']
     });
   }
