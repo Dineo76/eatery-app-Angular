@@ -1,14 +1,9 @@
 import {
-  CdkConnectedOverlay,
-  CdkOverlayOrigin,
-  OVERLAY_DEFAULT_CONFIG,
-  OverlayModule,
-  createRepositionScrollStrategy
-} from "./chunk-7I72CZZ6.js";
+  SelectionModel
+} from "./chunk-4M3UD4LK.js";
 import {
-  ErrorStateMatcher,
   _ErrorStateTracker
-} from "./chunk-HUULH722.js";
+} from "./chunk-ZUHZZDHA.js";
 import {
   MAT_FORM_FIELD,
   MatError,
@@ -19,22 +14,30 @@ import {
   MatLabel,
   MatPrefix,
   MatSuffix
-} from "./chunk-IBJIUDCU.js";
+} from "./chunk-XEBVPQV6.js";
+import {
+  CdkConnectedOverlay,
+  CdkOverlayOrigin,
+  OVERLAY_DEFAULT_CONFIG,
+  OverlayModule,
+  createRepositionScrollStrategy
+} from "./chunk-6CLUHUGM.js";
 import {
   CdkScrollableModule,
   ViewportRuler
-} from "./chunk-UG4HHEHU.js";
+} from "./chunk-BYOEPKWK.js";
+import "./chunk-VVJDIULJ.js";
 import {
-  FormGroupDirective,
-  NgControl,
-  NgForm,
-  Validators
-} from "./chunk-W6DKAQ7V.js";
+  ErrorStateMatcher
+} from "./chunk-4JTNNZJK.js";
+import "./chunk-YRSAR5DD.js";
 import {
   MatRipple,
   MatRippleModule,
   _StructuralStylesLoader
-} from "./chunk-R4UTR35U.js";
+} from "./chunk-6FGQXZEH.js";
+import "./chunk-FCWSOP2H.js";
+import "./chunk-XZ2RZNXJ.js";
 import "./chunk-LR34GQVG.js";
 import {
   A,
@@ -52,29 +55,33 @@ import {
   addAriaReferencedId,
   hasModifierKey,
   removeAriaReferencedId
-} from "./chunk-UGBZLF67.js";
-import "./chunk-DYT3SPYG.js";
-import "./chunk-GITUKJ2Y.js";
+} from "./chunk-N3YWHN5B.js";
 import {
   _getEventTarget
 } from "./chunk-TOVKXIG2.js";
 import {
   _VisuallyHiddenLoader
-} from "./chunk-K5YP5KCX.js";
-import "./chunk-P57T6VTJ.js";
-import "./chunk-WZXTZAXU.js";
-import {
-  _CdkPrivateStyleLoader
-} from "./chunk-XE6GHQBL.js";
-import "./chunk-XZ2RZNXJ.js";
-import "./chunk-5TMUUJNU.js";
-import "./chunk-R2X7YETO.js";
+} from "./chunk-HTIDSUV7.js";
+import "./chunk-XIEJSIFH.js";
+import "./chunk-DYT3SPYG.js";
 import {
   BidiModule,
   Directionality
-} from "./chunk-SUWZJHCS.js";
-import "./chunk-EZ7VF3D5.js";
-import "./chunk-OYZY5TLR.js";
+} from "./chunk-W5RNOTOT.js";
+import {
+  _CdkPrivateStyleLoader
+} from "./chunk-Q6CWFZVO.js";
+import "./chunk-HDIH3VJH.js";
+import "./chunk-WKFECIY3.js";
+import "./chunk-CX3A5GOC.js";
+import {
+  FormGroupDirective,
+  NgControl,
+  NgForm,
+  Validators
+} from "./chunk-U3I2ZP37.js";
+import "./chunk-VVQHXTNY.js";
+import "./chunk-AQKQUMDX.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -85,7 +92,6 @@ import {
   ElementRef,
   EventEmitter,
   HostAttributeToken,
-  Injectable,
   InjectionToken,
   Injector,
   Input,
@@ -111,7 +117,6 @@ import {
   ɵɵcontentQuery,
   ɵɵdefineComponent,
   ɵɵdefineDirective,
-  ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdomElementEnd,
@@ -137,12 +142,12 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-6SCL6ZH4.js";
+} from "./chunk-LNLIFUU3.js";
+import "./chunk-B62QCB5S.js";
 import {
   defer,
   merge
-} from "./chunk-IU5KL3EI.js";
-import "./chunk-4KXP3TRZ.js";
+} from "./chunk-6RM4XH5G.js";
 import {
   Subject,
   filter,
@@ -151,191 +156,7 @@ import {
   switchMap,
   take,
   takeUntil
-} from "./chunk-2PVEN5D5.js";
-
-// ../node_modules/@angular/cdk/fesm2022/_selection-model-chunk.mjs
-var SelectionModel = class {
-  _multiple;
-  _emitChanges;
-  compareWith;
-  _selection = /* @__PURE__ */ new Set();
-  _deselectedToEmit = [];
-  _selectedToEmit = [];
-  _selected = null;
-  get selected() {
-    if (!this._selected) {
-      this._selected = Array.from(this._selection.values());
-    }
-    return this._selected;
-  }
-  changed = new Subject();
-  constructor(_multiple = false, initiallySelectedValues, _emitChanges = true, compareWith) {
-    this._multiple = _multiple;
-    this._emitChanges = _emitChanges;
-    this.compareWith = compareWith;
-    if (initiallySelectedValues && initiallySelectedValues.length) {
-      if (_multiple) {
-        initiallySelectedValues.forEach((value) => this._markSelected(value));
-      } else {
-        this._markSelected(initiallySelectedValues[0]);
-      }
-      this._selectedToEmit.length = 0;
-    }
-  }
-  select(...values) {
-    this._verifyValueAssignment(values);
-    values.forEach((value) => this._markSelected(value));
-    const changed = this._hasQueuedChanges();
-    this._emitChangeEvent();
-    return changed;
-  }
-  deselect(...values) {
-    this._verifyValueAssignment(values);
-    values.forEach((value) => this._unmarkSelected(value));
-    const changed = this._hasQueuedChanges();
-    this._emitChangeEvent();
-    return changed;
-  }
-  setSelection(...values) {
-    this._verifyValueAssignment(values);
-    const oldValues = this.selected;
-    const newSelectedSet = new Set(values.map((value) => this._getConcreteValue(value)));
-    values.forEach((value) => this._markSelected(value));
-    oldValues.filter((value) => !newSelectedSet.has(this._getConcreteValue(value, newSelectedSet))).forEach((value) => this._unmarkSelected(value));
-    const changed = this._hasQueuedChanges();
-    this._emitChangeEvent();
-    return changed;
-  }
-  toggle(value) {
-    return this.isSelected(value) ? this.deselect(value) : this.select(value);
-  }
-  clear(flushEvent = true) {
-    this._unmarkAll();
-    const changed = this._hasQueuedChanges();
-    if (flushEvent) {
-      this._emitChangeEvent();
-    }
-    return changed;
-  }
-  isSelected(value) {
-    return this._selection.has(this._getConcreteValue(value));
-  }
-  isEmpty() {
-    return this._selection.size === 0;
-  }
-  hasValue() {
-    return !this.isEmpty();
-  }
-  sort(predicate) {
-    if (this._multiple && this.selected) {
-      this._selected.sort(predicate);
-    }
-  }
-  isMultipleSelection() {
-    return this._multiple;
-  }
-  _emitChangeEvent() {
-    this._selected = null;
-    if (this._selectedToEmit.length || this._deselectedToEmit.length) {
-      this.changed.next({
-        source: this,
-        added: this._selectedToEmit,
-        removed: this._deselectedToEmit
-      });
-      this._deselectedToEmit = [];
-      this._selectedToEmit = [];
-    }
-  }
-  _markSelected(value) {
-    value = this._getConcreteValue(value);
-    if (!this.isSelected(value)) {
-      if (!this._multiple) {
-        this._unmarkAll();
-      }
-      if (!this.isSelected(value)) {
-        this._selection.add(value);
-      }
-      if (this._emitChanges) {
-        this._selectedToEmit.push(value);
-      }
-    }
-  }
-  _unmarkSelected(value) {
-    value = this._getConcreteValue(value);
-    if (this.isSelected(value)) {
-      this._selection.delete(value);
-      if (this._emitChanges) {
-        this._deselectedToEmit.push(value);
-      }
-    }
-  }
-  _unmarkAll() {
-    if (!this.isEmpty()) {
-      this._selection.forEach((value) => this._unmarkSelected(value));
-    }
-  }
-  _verifyValueAssignment(values) {
-    if (values.length > 1 && !this._multiple && (typeof ngDevMode === "undefined" || ngDevMode)) {
-      throw getMultipleValuesInSingleSelectionError();
-    }
-  }
-  _hasQueuedChanges() {
-    return !!(this._deselectedToEmit.length || this._selectedToEmit.length);
-  }
-  _getConcreteValue(inputValue, selection) {
-    if (!this.compareWith) {
-      return inputValue;
-    } else {
-      selection = selection ?? this._selection;
-      for (let selectedValue of selection) {
-        if (this.compareWith(inputValue, selectedValue)) {
-          return selectedValue;
-        }
-      }
-      return inputValue;
-    }
-  }
-};
-function getMultipleValuesInSingleSelectionError() {
-  return Error("Cannot pass multiple values into SelectionModel with single-value mode.");
-}
-
-// ../node_modules/@angular/cdk/fesm2022/_unique-selection-dispatcher-chunk.mjs
-var UniqueSelectionDispatcher = class _UniqueSelectionDispatcher {
-  _listeners = [];
-  notify(id, name) {
-    for (let listener of this._listeners) {
-      listener(id, name);
-    }
-  }
-  listen(listener) {
-    this._listeners.push(listener);
-    return () => {
-      this._listeners = this._listeners.filter((registered) => {
-        return listener !== registered;
-      });
-    };
-  }
-  ngOnDestroy() {
-    this._listeners = [];
-  }
-  static ɵfac = function UniqueSelectionDispatcher_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _UniqueSelectionDispatcher)();
-  };
-  static ɵprov = ɵɵdefineInjectable({
-    token: _UniqueSelectionDispatcher,
-    factory: _UniqueSelectionDispatcher.ɵfac,
-    providedIn: "root"
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(UniqueSelectionDispatcher, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], null, null);
-})();
+} from "./chunk-DWZ6CA4T.js";
 
 // ../node_modules/@angular/material/fesm2022/_pseudo-checkbox-chunk.mjs
 var MatPseudoCheckbox = class _MatPseudoCheckbox {

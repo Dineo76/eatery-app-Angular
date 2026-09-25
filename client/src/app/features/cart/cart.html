@@ -58,7 +58,6 @@
       }
     }
   </div>
-
   <div class="cart-footer">
     <div class="total-row">
       <span>Total:</span>
@@ -68,6 +67,7 @@
       mat-raised-button 
       color="primary" 
       class="checkout-btn" 
+      (click)="onCheckout()"
       [disabled]="cartService.cart().length === 0">
       Checkout
     </button>
