@@ -1,22 +1,43 @@
 <section class="home" id="home">
   <div class="home-content">
     <h1>Order delivery near you</h1>
-<p>Welcome to KwaJozi. Order or come by to visit the best kotas eKasi!.</p>
-    <div class="search-box">
-      <mat-form-field appearance="outline" class="address-field">
-        <mat-label>Enter delivery address</mat-label>
-        <mat-icon matPrefix>location_on</mat-icon>
-        <input matInput [(ngModel)]="deliveryAddress" placeholder="e.g. 123 Main St" />
-      </mat-form-field>
+    <p>Welcome to KwaJozi. Order or come by to visit the best kotas eKasi!.</p>
 
-      <mat-form-field appearance="outline" class="option-field">
+    <div class="search-box">
+      <div class="autocomplete-wrapper">
+        <mat-form-field appearance="fill" class="address-field">
+          <mat-label>Enter delivery address</mat-label>
+          <mat-icon matPrefix>location_on</mat-icon>
+          <input 
+            matInput 
+            [(ngModel)]="deliveryAddress" 
+            (input)="onAddressInput($event)"
+            placeholder="e.g. 123 Main St"
+            autocomplete="off"
+          />
+        </mat-form-field>
+
+        <!-- Dropdown Suggestions List -->
+        @if (addressSuggestions.length > 0) {
+          <ul class="suggestions-list">
+            @for (suggestion of addressSuggestions; track $index) {
+              <li (click)="selectAddress(suggestion)">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ suggestion.display_name }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <mat-form-field appearance="fill" class="option-field">
         <mat-select [(ngModel)]="deliveryOption">
           <mat-option value="now">Deliver now</mat-option>
           <mat-option value="schedule">Schedule for delivery</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <button mat-flat-button color="primary" class="find-food-btn">
+      <button mat-flat-button class="find-food-btn" (click)="onFindFood()">
         <mat-icon>search</mat-icon> Find Food
       </button>
     </div>

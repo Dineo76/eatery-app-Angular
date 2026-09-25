@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,11 +22,14 @@ import { AuthService } from '../../core/services/auth-services';
   templateUrl: './menu.html',
   styleUrl: './menu.css',
 })
-export class Menu {
+export class Menu implements OnInit {
   cartService = inject(CartService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private snackBar = inject(MatSnackBar);
+
+  searchQuery: string = '';
 
   menuItems: MenuItem[] = [
     {
@@ -87,14 +90,38 @@ export class Menu {
     }
   ];
 
+  // Array used for template rendering
+  filteredMenuItems: MenuItem[] = [];
+
+  ngOnInit(): void {
+    // Listen for query parameters from Hero component
+    this.route.queryParams.subscribe(params => {
+      this.searchQuery = params['search'] || '';
+      this.filterMenu();
+    });
+  }
+
+  filterMenu(): void {
+    if (!this.searchQuery.trim()) {
+      this.filteredMenuItems = [...this.menuItems];
+      return;
+    }
+
+    const term = this.searchQuery.toLowerCase();
+    this.filteredMenuItems = this.menuItems.filter(item =>
+      item.name.toLowerCase().includes(term) ||
+      item.description.toLowerCase().includes(term)
+    );
+  }
+
   addToCart(item: MenuItem): void {
     // Check if user is logged in
     if (!this.authService.isAuthenticated()) {
       this.snackBar.open('Please register or sign in to add items to your cart.', 'Register Now', {
         duration: 4000,
         horizontalPosition: 'center',
-        verticalPosition: 'top', // Sets Angular Material base positioning
-        panelClass: ['snack-warning', 'center-toast-container'] // Custom theme styling + center positioning
+        verticalPosition: 'top',
+        panelClass: ['snack-warning', 'center-toast-container']
       }).onAction().subscribe(() => {
         this.router.navigate(['/register']);
       });

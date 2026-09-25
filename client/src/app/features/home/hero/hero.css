@@ -2,101 +2,171 @@
   display: block;
 }
 
-/* Hero Container */
+/* Hero Section Base */
 .home {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+  background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
     url('https://images.pexels.com/photos/21821567/pexels-photo-21821567.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  min-height: calc(85vh - 70px);
-  padding: 120px 20px 100px 20px;
+  min-height: 75vh;
+  padding: 80px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-style: italic;
   color: #ffffff;
 }
 
-/* Hero Typography */
+.home-content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .home-content h1 {
-  font-size: 65px;
-  margin: 0 0 15px 0;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  font-size: 52px;
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  line-height: 1.2;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .home-content p {
-  font-size: 20px;
-  width: 650px;
-  max-width: 90%;
-  margin: 0 auto 30px auto;
-  line-height: 1.8;
+  font-size: 18px;
+  font-style: italic;
+  max-width: 650px;
+  margin: 0 auto 32px auto;
+  line-height: 1.6;
 }
 
-/* Search Box Layout & Material Field Overrides */
+/* Search Box Row Alignment */
 .search-box {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.search-box ::ng-deep .mat-mdc-form-field,
-.search-box ::ng-deep .mat-mdc-text-field-wrapper {
-  border-radius: 8px !important;
-  background-color: #ffffff;
-}
-
-.search-box ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-  display: none;
-}
-
-/* Field Dimensions */
-.address-field {
+/* Autocomplete Wrapper dimensions */
+.autocomplete-wrapper {
+  position: relative;
   width: 450px;
   max-width: 100%;
 }
 
+.address-field {
+  width: 100%;
+}
+
 .option-field {
-  width: 210px;
+  width: 220px;
   max-width: 100%;
 }
 
-/* Find Food Button (#236845) */
+/* Uniform Material Box Styling (Matches Screenshot Exactly) */
+.search-box ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  height: 56px !important;
+  padding: 0 12px !important;
+}
+
+/* Label Color Fix (Changes active floating label from blue to dark green) */
+.search-box ::ng-deep .mat-mdc-form-field.mat-focused .mdc-floating-label {
+  color: #236845 !important;
+}
+
+.search-box ::ng-deep .mat-mdc-form-field .mdc-floating-label {
+  color: #64748b;
+}
+
+.search-box ::ng-deep .mdc-line-ripple {
+  display: none !important;
+}
+
+.search-box ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+/* Input text alignment */
+.search-box ::ng-deep input.mat-mdc-input-element {
+  color: #1a202c !important;
+  font-size: 15px !important;
+}
+
+/* Find Food Button Size Match */
 .find-food-btn {
   height: 56px !important;
   padding: 0 28px !important;
-  font-size: 17px !important;
+  font-size: 16px !important;
   font-weight: 700 !important;
   border-radius: 8px !important;
   background-color: #236845 !important;
   color: #ffffff !important;
-  transition: background-color 0.2s ease !important;
+  white-space: nowrap;
 }
 
 .find-food-btn:hover {
   background-color: #1b5236 !important;
 }
 
-/* Responsive Styles */
+/* Free OpenStreetMap Dropdown Styling */
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  margin: 6px 0 0 0;
+  padding: 0;
+  list-style: none;
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #cbd5e1;
+}
+
+.suggestions-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  color: #1e293b;
+  font-size: 14px;
+  font-style: normal;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+
+.suggestions-list li:last-child {
+  border-bottom: none;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0fdf4;
+  color: #236845;
+}
+
+.suggestions-list mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #236845;
+}
+
 @media (max-width: 768px) {
-  .home {
-    min-height: auto;
-    padding: 80px 16px;
-  }
-
   .home-content h1 {
-    font-size: 40px;
+    font-size: 34px;
   }
-
-  .home-content p {
-    font-size: 16px;
+  .search-box {
+    flex-direction: column;
   }
-
-  .address-field,
+  .autocomplete-wrapper,
   .option-field,
   .find-food-btn {
     width: 100% !important;
