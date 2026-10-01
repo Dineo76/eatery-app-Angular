@@ -130,3 +130,21 @@
       grid-template-columns: 1fr;
     }
   }
+  
+  .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .place-order-btn {
+    background-color: #236845 !important;
+    color: #ffffff !important;
+    min-width: 180px;
+  }
+  
+  .place-order-btn[disabled] {
+    background-color: #a3c4b2 !important;
+    opacity: 0.7;
+  }

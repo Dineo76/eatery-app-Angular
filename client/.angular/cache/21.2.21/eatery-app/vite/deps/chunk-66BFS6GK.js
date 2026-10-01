@@ -13,12 +13,12 @@ import {
   Directionality
 } from "./chunk-W5RNOTOT.js";
 import {
-  Platform
-} from "./chunk-HDIH3VJH.js";
-import {
   coerceElement,
   coerceNumberProperty
 } from "./chunk-WKFECIY3.js";
+import {
+  Platform
+} from "./chunk-HDIH3VJH.js";
 import {
   ApplicationRef,
   ChangeDetectionStrategy,
@@ -1345,4 +1345,4 @@ export {
   CdkScrollableModule,
   ScrollingModule
 };
-//# sourceMappingURL=chunk-BYOEPKWK.js.map
+//# sourceMappingURL=chunk-66BFS6GK.js.map

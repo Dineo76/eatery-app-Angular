@@ -1,147 +1,185 @@
 <div class="checkout-container">
-    <div class="checkout-layout">
-      
-      <!-- Left Column: Checkout Stepper -->
-      <div class="stepper-section">
-        <h2>Complete Your Order</h2>
-  
-        <mat-stepper #stepper linear="true">
+  <div class="checkout-layout">
+    
+    <!-- Left Column: Checkout Stepper -->
+    <div class="stepper-section">
+      <h2>Complete Your Order</h2>
+
+      <mat-stepper #stepper linear="true">
+        
+        <!-- Step 1: Delivery Information -->
+        <mat-step [stepControl]="deliveryForm">
+          <ng-template matStepLabel>Delivery Address</ng-template>
           
-          <!-- Step 1: Delivery Information -->
-          <mat-step [stepControl]="deliveryForm">
-            <ng-template matStepLabel>Delivery Address</ng-template>
-            
-            <form [formGroup]="deliveryForm" class="step-form">
-              <div class="form-row">
-                <mat-form-field appearance="fill" class="full-width">
-                  <mat-label>Full Name</mat-label>
-                  <input matInput formControlName="fullName" placeholder="e.g. Karabo Molefe" />
-                </mat-form-field>
-  
-                <mat-form-field appearance="fill" class="full-width">
-                  <mat-label>Phone Number</mat-label>
-                  <input matInput formControlName="phone" placeholder="e.g. 0821234567" />
-                </mat-form-field>
-              </div>
-  
+          <form [formGroup]="deliveryForm" class="step-form">
+            <div class="form-row">
               <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Delivery Address</mat-label>
-                <textarea matInput formControlName="address" rows="2" placeholder="Street, Suburb, House/Unit #"></textarea>
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="fullName" placeholder="e.g. Karabo Molefe" />
+                @if (deliveryForm.get('fullName')?.invalid && deliveryForm.get('fullName')?.touched) {
+                  <mat-error>Full name is required</mat-error>
+                }
               </mat-form-field>
-  
+
               <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Delivery Notes / Special Instructions</mat-label>
-                <input matInput formControlName="notes" placeholder="e.g. Call when outside" />
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phone" placeholder="e.g. 0821234567" />
+                @if (deliveryForm.get('phone')?.invalid && deliveryForm.get('phone')?.touched) {
+                  <mat-error>Enter a valid 10-digit phone number</mat-error>
+                }
               </mat-form-field>
-  
-              <div class="stepper-actions">
-                <button mat-flat-button class="action-btn" matStepperNext [disabled]="deliveryForm.invalid">
-                  Continue to Payment
-                </button>
-              </div>
-            </form>
-          </mat-step>
-  
-          <!-- Step 2: Payment Details -->
-          <mat-step [stepControl]="paymentForm">
-            <ng-template matStepLabel>Payment</ng-template>
-  
-            <form [formGroup]="paymentForm" class="step-form">
-              <mat-radio-group formControlName="paymentMethod" class="payment-options">
-                <mat-radio-button value="card">Credit / Debit Card (PayFast / Yoco)</mat-radio-button>
-                <mat-radio-button value="cash">Cash on Delivery</mat-radio-button>
-              </mat-radio-group>
-  
-              @if (paymentForm.get('paymentMethod')?.value === 'card') {
-                <div class="card-details">
-                  <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Card Number</mat-label>
-                    <input matInput formControlName="cardNumber" placeholder="1234 5678 9012 3456" />
-                  </mat-form-field>
-  
-                  <div class="form-row">
-                    <mat-form-field appearance="fill" class="half-width">
-                      <mat-label>Expiry Date</mat-label>
-                      <input matInput formControlName="expiry" placeholder="MM/YY" />
-                    </mat-form-field>
-  
-                    <mat-form-field appearance="fill" class="half-width">
-                      <mat-label>CVV</mat-label>
-                      <input matInput formControlName="cvv" placeholder="123" />
-                    </mat-form-field>
-                  </div>
-                </div>
-              }
-  
-              <div class="stepper-actions">
-                <button mat-stroked-button matStepperPrevious>Back</button>
-                <button mat-flat-button class="action-btn" matStepperNext>Review Order</button>
-              </div>
-            </form>
-          </mat-step>
-  
-          <!-- Step 3: Review & Place Order -->
-          <mat-step>
-            <ng-template matStepLabel>Review</ng-template>
-  
-            <div class="review-step">
-              <h3>Confirm Details</h3>
-  
-              <div class="review-box">
-                <p><strong>Deliver To:</strong> {{ deliveryForm.value.fullName }} ({{ deliveryForm.value.phone }})</p>
-                <p><strong>Address:</strong> {{ deliveryForm.value.address }}</p>
-                <p><strong>Payment Method:</strong> {{ paymentForm.value.paymentMethod === 'card' ? 'Online Card Payment' : 'Cash on Delivery' }}</p>
-              </div>
-  
-              <div class="stepper-actions">
-                <button mat-stroked-button matStepperPrevious>Back</button>
-                <button mat-flat-button class="action-btn place-order-btn" (click)="placeOrder()">
-                  Place Order (R{{ grandTotal }})
-                </button>
-              </div>
             </div>
-          </mat-step>
-  
-        </mat-stepper>
-      </div>
-  
-      <!-- Right Column: Order Summary Sidebar -->
-      <div class="summary-section">
-        <mat-card class="summary-card">
-          <h3>Order Summary</h3>
-  
-          <div class="items-list">
-            @for (item of cartItems; track $index) {
-              <div class="summary-item">
-                <div>
-                  <span class="item-qty">{{ item.qty }}x</span>
-                  <span class="item-name">{{ item.name }}</span>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Delivery Address</mat-label>
+              <textarea matInput formControlName="address" rows="2" placeholder="Street, Suburb, House/Unit #"></textarea>
+              @if (deliveryForm.get('address')?.invalid && deliveryForm.get('address')?.touched) {
+                <mat-error>Delivery address is required</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Delivery Notes / Special Instructions</mat-label>
+              <input matInput formControlName="notes" placeholder="e.g. Call when outside" />
+            </mat-form-field>
+
+            <div class="stepper-actions">
+              <button 
+                type="button" 
+                mat-flat-button 
+                class="action-btn" 
+                matStepperNext 
+                [disabled]="deliveryForm.invalid">
+                Continue to Payment
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 2: Payment Details -->
+        <mat-step [stepControl]="paymentForm">
+          <ng-template matStepLabel>Payment</ng-template>
+
+          <form [formGroup]="paymentForm" class="step-form">
+            <mat-radio-group formControlName="paymentMethod" class="payment-options">
+              <mat-radio-button value="card">Credit / Debit Card (PayFast / Yoco)</mat-radio-button>
+              <mat-radio-button value="cash">Cash on Delivery</mat-radio-button>
+            </mat-radio-group>
+
+            @if (paymentForm.get('paymentMethod')?.value === 'card') {
+              <div class="card-details">
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Card Number</mat-label>
+                  <input matInput formControlName="cardNumber" placeholder="1234 5678 9012 3456" />
+                  @if (paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched) {
+                    <mat-error>Card number is required</mat-error>
+                  }
+                </mat-form-field>
+
+                <div class="form-row">
+                  <mat-form-field appearance="fill" class="half-width">
+                    <mat-label>Expiry Date</mat-label>
+                    <input matInput formControlName="expiry" placeholder="MM/YY" />
+                    @if (paymentForm.get('expiry')?.invalid && paymentForm.get('expiry')?.touched) {
+                      <mat-error>MM/YY required</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="half-width">
+                    <mat-label>CVV</mat-label>
+                    <input matInput formControlName="cvv" placeholder="123" />
+                    @if (paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched) {
+                      <mat-error>3 digits required</mat-error>
+                    }
+                  </mat-form-field>
                 </div>
-                <span class="item-price">R{{ item.price * item.qty }}</span>
               </div>
             }
+
+            <div class="stepper-actions">
+              <button type="button" mat-stroked-button matStepperPrevious>Back</button>
+              <button 
+                type="button" 
+                mat-flat-button 
+                class="action-btn" 
+                matStepperNext 
+                [disabled]="paymentForm.invalid">
+                Review Order
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Step 3: Review & Place Order -->
+        <mat-step>
+          <ng-template matStepLabel>Review</ng-template>
+
+          <div class="review-step">
+            <h3>Confirm Details</h3>
+
+            <div class="review-box">
+              <p><strong>Deliver To:</strong> {{ deliveryForm.value.fullName }} ({{ deliveryForm.value.phone }})</p>
+              <p><strong>Address:</strong> {{ deliveryForm.value.address }}</p>
+              <p><strong>Payment Method:</strong> {{ paymentForm.value.paymentMethod === 'card' ? 'Online Card Payment' : 'Cash on Delivery' }}</p>
+            </div>
+
+            <div class="stepper-actions">
+              <button type="button" mat-stroked-button matStepperPrevious [disabled]="isSubmitting">Back</button>
+              <button 
+                type="button" 
+                mat-flat-button 
+                class="action-btn place-order-btn" 
+                [disabled]="isSubmitting || deliveryForm.invalid || paymentForm.invalid"
+                (click)="placeOrder()">
+                <div class="btn-content">
+                  <mat-spinner *ngIf="isSubmitting" diameter="20" color="accent"></mat-spinner>
+                  <span>{{ isSubmitting ? 'Placing Order...' : 'Place Order (R' + grandTotal + ')' }}</span>
+                </div>
+              </button>
+            </div>
           </div>
-  
-          <hr class="divider" />
-  
-          <div class="totals-row">
-            <span>Subtotal</span>
-            <span>R{{ subtotal }}</span>
-          </div>
-  
-          <div class="totals-row">
-            <span>Delivery Fee</span>
-            <span>R{{ deliveryFee }}</span>
-          </div>
-  
-          <hr class="divider" />
-  
-          <div class="totals-row grand-total">
-            <span>Total</span>
-            <span>R{{ grandTotal }}</span>
-          </div>
-        </mat-card>
-      </div>
-  
+        </mat-step>
+
+      </mat-stepper>
     </div>
+
+    <!-- Right Column: Order Summary Sidebar -->
+    <div class="summary-section">
+      <mat-card class="summary-card">
+        <h3>Order Summary</h3>
+
+        <div class="items-list">
+          @for (cartItem of cartService.cartItems(); track $index) {
+            <div class="summary-item">
+              <div>
+                <span class="item-qty">{{ cartItem.quantity }}x</span>
+                <span class="item-name">{{ cartItem.item.name }}</span>
+              </div>
+              <span class="item-price">R{{ cartItem.item.price * cartItem.quantity }}</span>
+            </div>
+          }
+        </div>
+
+        <hr class="divider" />
+
+        <div class="totals-row">
+          <span>Subtotal</span>
+          <span>R{{ cartService.totalAmount() }}</span>
+        </div>
+
+        <div class="totals-row">
+          <span>Delivery Fee</span>
+          <span>R{{ deliveryFee }}</span>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="totals-row grand-total">
+          <span>Total</span>
+          <span>R{{ grandTotal }}</span>
+        </div>
+      </mat-card>
+    </div>
+
   </div>
+</div>

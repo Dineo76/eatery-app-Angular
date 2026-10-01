@@ -9,6 +9,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CartService } from '../../shared/services/cart.service';
+
+// Adjust relative path if order.service.ts lives in core or shared:
+import { OrderService, OrderPayload } from '../../core/services/OrderService';
+
+interface OrderResponse {
+  orderId?: string;
+  _id?: string;
+  message?: string;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -22,7 +33,8 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatRadioModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css'
@@ -30,17 +42,13 @@ import { MatCardModule } from '@angular/material/card';
 export class Checkout implements OnInit {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  public cartService = inject(CartService);
+  private orderService = inject(OrderService);
 
   deliveryForm!: FormGroup;
   paymentForm!: FormGroup;
-
-  // Example cart items (will connect to your Cart Service)
-  cartItems = [
-    { name: 'Special Kota (Cheese, Egg, Russian)', qty: 2, price: 65 },
-    { name: 'Chips & Dip Portion', qty: 1, price: 30 }
-  ];
-
   deliveryFee = 25;
+  isSubmitting = false;
 
   ngOnInit(): void {
     this.deliveryForm = this.fb.group({
@@ -56,29 +64,68 @@ export class Checkout implements OnInit {
       expiry: [''],
       cvv: ['']
     });
-  }
 
-  get subtotal(): number {
-    return this.cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method: string) => {
+      const cardNum = this.paymentForm.get('cardNumber');
+      const expiry = this.paymentForm.get('expiry');
+      const cvv = this.paymentForm.get('cvv');
+
+      if (method === 'card') {
+        cardNum?.setValidators([Validators.required]);
+        expiry?.setValidators([Validators.required]);
+        cvv?.setValidators([Validators.required]);
+      } else {
+        cardNum?.clearValidators();
+        expiry?.clearValidators();
+        cvv?.clearValidators();
+      }
+
+      cardNum?.updateValueAndValidity();
+      expiry?.updateValueAndValidity();
+      cvv?.updateValueAndValidity();
+    });
   }
 
   get grandTotal(): number {
-    return this.subtotal + this.deliveryFee;
+    return this.cartService.totalAmount() + this.deliveryFee;
   }
 
   placeOrder(): void {
-    if (this.deliveryForm.valid && this.paymentForm.valid) {
-      const orderPayload = {
-        delivery: this.deliveryForm.value,
-        payment: this.paymentForm.value,
-        items: this.cartItems,
-        total: this.grandTotal
-      };
-
-      console.log('Order submitted successfully:', orderPayload);
-      // TODO: Connect to Node.js backend POST /api/orders endpoint
-      alert('Order placed successfully!');
-      this.router.navigate(['/']);
+    if (this.deliveryForm.invalid || this.paymentForm.invalid) {
+      return;
     }
-  }
+
+    this.isSubmitting = true;
+
+    const payload: OrderPayload = {
+      delivery: this.deliveryForm.value,
+      payment: {
+        paymentMethod: this.paymentForm.value.paymentMethod
+      },
+      items: this.cartService.cartItems(),
+      subtotal: this.cartService.totalAmount(),
+      deliveryFee: this.deliveryFee,
+      total: this.grandTotal
+    };
+
+      this.orderService.placeOrder(payload).subscribe({
+        next: (res: OrderResponse) => {
+          const reference = res.orderId || res._id || 'SUCCESS';
+          
+          // 1. Clear cart items
+          this.cartService.clearCart();
+          
+          // 2. Navigate straight to Order Success page with order reference
+          this.router.navigate(['/order-success'], { 
+            state: { orderId: reference } 
+          });
+        },
+        error: (err: unknown) => {
+          console.error('Error placing order:', err);
+          alert('Failed to place order. Please try again.');
+          this.isSubmitting = false;
+        }
+      });
+      }
+  
 }

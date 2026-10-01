@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { pool } from './config/db';
 import authRoutes from './routes/auth.routes';
+import orderRoutes from './routes/orderRoutes'; // 1. Import order routes
 
 dotenv.config();
 
@@ -13,8 +14,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 app.use(express.json());
 
-// Auth Routes
+// Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/orders', orderRoutes); // 2. Register order routes
 
 // Health Check Route
 app.get('/api/health', async (req, res) => {
