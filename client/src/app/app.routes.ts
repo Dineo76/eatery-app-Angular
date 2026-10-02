@@ -6,6 +6,8 @@ import { Contacts } from './features/contacts/contacts';
 import { Signin } from './features/auth/signin/signin';
 import { Register } from './features/auth/register/register';
 import { ForgotPassword } from './features/auth/forgot-password/forgot-password';
+import { Checkout } from './features/checkout/checkout';
+import { OrderSuccess } from './features/order-success/order-success';
 
 export const routes: Routes = [
   { path: '', component: Hero },
@@ -15,5 +17,7 @@ export const routes: Routes = [
   { path: 'signin', component: Signin },
   { path: 'register', component: Register },
   { path: 'forgot-password', component: ForgotPassword },
+  { path: 'checkout', component: Checkout },
+  { path: 'order-success', component: OrderSuccess },
   { path: '**', redirectTo: '' }
 ];

@@ -8,6 +8,10 @@ export class CartService {
   cart = signal<CartItem[]>([]);
   isCartOpen = signal<boolean>(false);
 
+  // Property aliases for checkout integration
+  cartItems = this.cart;
+  totalAmount = computed(() => this.cartTotal());
+
   cartCount = computed(() =>
     this.cart().reduce((acc, item) => acc + item.quantity, 0)
   );
@@ -52,5 +56,9 @@ export class CartService {
 
   removeFromCart(itemId: number): void {
     this.cart.update((current) => current.filter((c) => c.item.id !== itemId));
+  }
+
+  clearCart(): void {
+    this.cart.set([]);
   }
 }

@@ -1,0 +1,115 @@
+.success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 24px 16px;
+    background-color: #f8f9fa;
+  }
+  
+  .success-card {
+    max-width: 520px;
+    width: 100%;
+    padding: 32px 24px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .icon-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .check-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    background-color: #e8f5e9;
+    border-radius: 50%;
+    margin-bottom: 16px;
+  }
+  
+  .check-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #2e7d32;
+  }
+  
+  .icon-header h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #212121;
+  }
+  
+  .sub-heading {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+  }
+  
+  .order-details {
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .detail-label {
+    color: #757575;
+    font-size: 0.95rem;
+  }
+  
+  .detail-value {
+    font-weight: 600;
+    color: #212121;
+  }
+  
+  .order-id {
+    font-family: monospace;
+    font-size: 1rem;
+  }
+  
+  .highlight {
+    color: #2e7d32;
+  }
+  
+  .status-badge {
+    background-color: #fff3e0;
+    color: #e65100;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  
+  .card-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .primary-btn {
+    width: 70%;
+    padding: 22px 0;
+    font-size: 1rem;
+    border-radius: 8px;
+    background-color:  #1b5e20!important; 
+  color: #ffffff !important;
+  }
+
+  .primary-btn:hover {
+    background-color: #2e7d32 !important; 
+  }
