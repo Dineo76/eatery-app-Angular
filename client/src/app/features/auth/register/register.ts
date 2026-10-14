@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon'; // <-- IMPORTED
 import { AuthService } from '../../../core/services/auth-services';
 
 @Component({
@@ -14,7 +15,8 @@ import { AuthService } from '../../../core/services/auth-services';
     RouterLink,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule 
   ],
   templateUrl: './register.html',
   styleUrl: './register.css'
@@ -28,6 +30,9 @@ export class Register {
   password = '';
   errorMessage = '';
 
+  // Controls whether password dots are shown (true) or hidden (false)
+  hidePassword = true;
+
   onSubmit(): void {
     if (!this.fullName || !this.email || !this.password) {
       this.errorMessage = 'Please fill in all fields.';
@@ -38,11 +43,9 @@ export class Register {
 
     this.authService.register(this.fullName, this.email, this.password).subscribe({
       next: () => {
-        // Automatically logs in upon registration and navigates to /menu
         this.router.navigate(['/menu']);
       },
       error: (err) => {
-        // Catches "Email is already registered" or other backend 400/500 errors
         this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
       }
     });

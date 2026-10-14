@@ -66,6 +66,10 @@
   caret-color: #f44336;
 }
 
+/* Color for the password eye icon inside mat-form-field */
+.auth-container ::ng-deep .mat-mdc-form-field .mat-mdc-icon-button {
+  color: #236845 !important;
+}
 /* Custom Green Register Button */
 .register-btn,
 button[mat-raised-button].register-btn {

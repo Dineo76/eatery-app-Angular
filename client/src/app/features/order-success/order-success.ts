@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
+    // RouterLink,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
