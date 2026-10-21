@@ -8,6 +8,7 @@ import { Register } from './features/auth/register/register';
 import { ForgotPassword } from './features/auth/forgot-password/forgot-password';
 import { Checkout } from './features/checkout/checkout';
 import { OrderSuccess } from './features/order-success/order-success';
+import { adminGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Hero },
@@ -19,5 +20,11 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPassword },
   { path: 'checkout', component: Checkout },
   { path: 'order-success', component: OrderSuccess },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('./features/admin/dashboard/admin-dashboard').then((m) => m.AdminDashboard)
+  },
   { path: '**', redirectTo: '' }
 ];

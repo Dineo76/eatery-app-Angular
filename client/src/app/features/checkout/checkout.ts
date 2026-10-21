@@ -15,12 +15,6 @@ import { CartService } from '../../shared/services/cart.service';
 // Adjust relative path if order.service.ts lives in core or shared:
 import { OrderService, OrderPayload } from '../../core/services/OrderService';
 
-interface OrderResponse {
-  orderId?: string;
-  _id?: string;
-  message?: string;
-}
-
 @Component({
   selector: 'app-checkout',
   standalone: true,
@@ -109,8 +103,8 @@ export class Checkout implements OnInit {
     };
 
       this.orderService.placeOrder(payload).subscribe({
-        next: (res: OrderResponse) => {
-          const reference = res.orderId || res._id || 'SUCCESS';
+        next: (res) => {
+          const reference = res.orderId;
           
           // 1. Clear cart items
           this.cartService.clearCart();

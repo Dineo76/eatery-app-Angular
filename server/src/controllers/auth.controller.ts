@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { pool } from '../config/db';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'kwajozi_secret_key';
+import { jwtSecret } from '../config/jwt';
 
 export const register = async (req: Request, res: Response) => {
   const { full_name, email, password } = req.body;
@@ -29,7 +28,7 @@ export const register = async (req: Request, res: Response) => {
     const user = newUser.rows[0];
     const role = user.role || 'USER';
 
-    const token = jwt.sign({ id: user.id, email: user.email, role }, JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ id: user.id, email: user.email, role }, jwtSecret, { expiresIn: '1d' });
 
     res.status(201).json({ 
       message: 'User registered successfully', 
@@ -62,7 +61,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const role = user.role || 'USER';
-    const token = jwt.sign({ id: user.id, email: user.email, role }, JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ id: user.id, email: user.email, role }, jwtSecret, { expiresIn: '1d' });
 
     res.json({
       message: 'Login successful',

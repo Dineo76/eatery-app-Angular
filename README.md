@@ -44,6 +44,41 @@ To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use th
 ng test
 ```
 
+## Admin orders dashboard
+
+The admin dashboard is available at `/admin` to users whose database role is `ADMIN`.
+Apply both migrations to an existing database from the repository root:
+
+```bash
+psql "$DATABASE_URL" -f server/migrations/001_order_status.sql
+psql "$DATABASE_URL" -f server/migrations/002_single_admin.sql
+```
+
+The first migration adds the order status column used by the dashboard. The second
+ensures PostgreSQL allows at most one admin, regardless of role casing. If more than
+one admin already exists, change all but the account to keep back to `USER` before
+applying the second migration. The dashboard loads orders and updates their status
+through authenticated, administrator-only API endpoints.
+
+To create the dashboard account without registering through the app, add these
+values to `server/.env`. Choose your own email and a strong password of at least 12
+characters; never commit or share the credentials:
+
+```env
+ADMIN_NAME=KwaJozi Admin
+ADMIN_EMAIL=your-email@example.com
+ADMIN_PASSWORD=your-strong-unique-password
+```
+
+After applying both migrations, run this from the `server` directory:
+
+```bash
+npm run setup:admin
+```
+
+This creates the account, or sets the provided account's name, password, and role
+to `ADMIN`. Then sign in at `/signin` and open `/admin`.
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:

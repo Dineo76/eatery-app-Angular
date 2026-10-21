@@ -10,6 +10,19 @@ export const authGuard: CanActivateFn = () => {
     return true;
   }
 
-  router.navigate(['/login']);
-  return false;
+  return router.createUrlTree(['/signin']);
+};
+
+export const adminGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const user = authService.currentUser();
+
+  if (authService.isAuthenticated() && user?.role.toUpperCase() === 'ADMIN') {
+    return true;
+  }
+
+  return router.createUrlTree([
+    authService.isAuthenticated() ? '/' : '/signin'
+  ]);
 };

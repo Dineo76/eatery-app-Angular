@@ -1,0 +1,148 @@
+<section class="dashboard">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">KwaJozi administration</p>
+      <h1>Orders</h1>
+      <p class="welcome">Welcome back, {{ adminName() }}. Here's what's happening today.</p>
+    </div>
+    <button class="refresh-button" type="button" (click)="refreshOrders()" [disabled]="loading()">
+      <mat-icon aria-hidden="true">refresh</mat-icon>
+      Refresh orders
+    </button>
+  </header>
+
+  <div class="stats-grid" aria-label="Order summary">
+    <article class="stat-card">
+      <span class="stat-icon green"><mat-icon aria-hidden="true">receipt_long</mat-icon></span>
+      <div><p>Total orders</p><strong>{{ orders().length }}</strong></div>
+    </article>
+    <article class="stat-card">
+      <span class="stat-icon amber"><mat-icon aria-hidden="true">hourglass_top</mat-icon></span>
+      <div><p>Awaiting confirmation</p><strong>{{ pendingCount() }}</strong></div>
+    </article>
+    <article class="stat-card">
+      <span class="stat-icon blue"><mat-icon aria-hidden="true">local_dining</mat-icon></span>
+      <div><p>In progress</p><strong>{{ activeCount() }}</strong></div>
+    </article>
+    <article class="stat-card">
+      <span class="stat-icon red"><mat-icon aria-hidden="true">payments</mat-icon></span>
+      <div><p>Order revenue</p><strong>{{ revenue() | currency:'ZAR':'symbol-narrow':'1.2-2' }}</strong></div>
+    </article>
+  </div>
+
+  @if (loadError()) {
+    <div class="alert error" role="alert">
+      <mat-icon aria-hidden="true">error_outline</mat-icon>
+      <span>{{ loadError() }}</span>
+      <button type="button" class="text-button" (click)="refreshOrders()">Try again</button>
+    </div>
+  }
+
+  @if (actionError()) {
+    <div class="alert error" role="alert">
+      <mat-icon aria-hidden="true">error_outline</mat-icon>
+      <span>{{ actionError() }}</span>
+    </div>
+  }
+
+  @if (actionMessage()) {
+    <div class="alert success" role="status">
+      <mat-icon aria-hidden="true">check_circle</mat-icon>
+      <span>{{ actionMessage() }}</span>
+    </div>
+  }
+
+  <section class="orders-panel" aria-labelledby="orders-heading">
+    <div class="panel-header">
+      <div>
+        <h2 id="orders-heading">Recent orders</h2>
+        <p>Review incoming orders and keep customers up to date.</p>
+      </div>
+      <span class="order-count">{{ filteredOrders().length }} shown</span>
+    </div>
+
+    <div class="filters" aria-label="Filter orders by status">
+      @for (filter of filters; track filter.value) {
+        <button
+          type="button"
+          class="filter-button"
+          [class.selected]="statusFilter() === filter.value"
+          [attr.aria-pressed]="statusFilter() === filter.value"
+          (click)="statusFilter.set(filter.value)">
+          {{ filter.label }}
+        </button>
+      }
+    </div>
+
+    @if (loading() && orders().length === 0) {
+      <div class="empty-state" role="status">
+        <span class="loader" aria-hidden="true"></span>
+        <p>Loading orders…</p>
+      </div>
+    } @else if (!loading() && !loadError() && filteredOrders().length === 0) {
+      <div class="empty-state">
+        <mat-icon aria-hidden="true">inbox</mat-icon>
+        <h3>{{ statusFilter() === 'ALL' ? 'No orders yet' : 'No matching orders' }}</h3>
+        <p>
+          {{ statusFilter() === 'ALL'
+            ? 'New customer orders will appear here.'
+            : 'Try another status filter to find an order.' }}
+        </p>
+      </div>
+    } @else {
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Order</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Items</th>
+              <th scope="col">Placed</th>
+              <th scope="col">Total</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of filteredOrders(); track trackOrder($index, order)) {
+              <tr>
+                <td class="order-number">#{{ order.id }}</td>
+                <td>
+                  <strong class="customer-name">{{ order.full_name }}</strong>
+                  <span class="secondary">{{ order.phone }}</span>
+                  <span class="secondary address">{{ order.address }}</span>
+                </td>
+                <td class="items-cell">
+                  {{ itemSummary(order) }}
+                  @if (order.notes) {
+                    <span class="secondary">Note: {{ order.notes }}</span>
+                  }
+                </td>
+                <td class="date-cell">{{ order.created_at | date:'medium' }}</td>
+                <td class="total-cell">{{ order.total_amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}</td>
+                <td>
+                  <label class="visually-hidden" [for]="'status-' + order.id">
+                    Update status for order {{ order.id }}
+                  </label>
+                  <select
+                    class="status-select"
+                    [class]="'status-select status--' + order.status.toLowerCase()"
+                    [id]="'status-' + order.id"
+                    [value]="order.status"
+                    [disabled]="updatingOrderId() !== null"
+                    (change)="changeStatus(order, $event)">
+                    @for (status of filters.slice(1); track status.value) {
+                      <option [value]="status.value">{{ status.label }}</option>
+                    }
+                  </select>
+                  @if (updatingOrderId() === order.id) {
+                    <span class="visually-hidden" role="status">Saving status</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</section>

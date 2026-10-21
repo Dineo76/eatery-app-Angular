@@ -1,9 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { jwtSecret } from '../config/jwt';
 
-// Extend Express Request to attach user payload
+export interface AuthenticatedUser {
+  id: number;
+  email: string;
+  role: string;
+}
+
 export interface AuthenticatedRequest extends Request {
-  user?: any;
+  user?: AuthenticatedUser;
 }
 
 export const authenticateToken = (
@@ -19,11 +25,26 @@ export const authenticateToken = (
   }
 
   try {
-    const secret = process.env.JWT_SECRET || 'your_jwt_secret';
-    const decoded = jwt.verify(token, secret);
+    const decoded = jwt.verify(token, jwtSecret);
+    if (typeof decoded === 'string' || typeof decoded.id !== 'number'
+      || typeof decoded.email !== 'string' || typeof decoded.role !== 'string') {
+      return res.status(403).json({ message: 'Invalid token payload.' });
+    }
     req.user = decoded; // Attaches user id/role to req.user
     next();
   } catch (error) {
     return res.status(403).json({ message: 'Invalid or expired token.' });
   }
+};
+
+export const requireAdmin = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.user?.role.toUpperCase() !== 'ADMIN') {
+    return res.status(403).json({ message: 'Administrator access required.' });
+  }
+
+  next();
 };

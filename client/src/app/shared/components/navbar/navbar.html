@@ -9,6 +9,10 @@
     <a mat-button routerLink="/about" routerLinkActive="active">About</a>
     <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
 
+    @if (authService.currentUser()?.role?.toUpperCase() === 'ADMIN') {
+      <a mat-button routerLink="/admin" routerLinkActive="active">Admin</a>
+    }
+
     <!-- Cart Button with Live Badge Count -->
     <button mat-icon-button (click)="cartService.toggleCart()" aria-label="Open Shopping Cart">
       <mat-icon 
