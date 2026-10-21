@@ -33,6 +33,14 @@ export class AdminDashboard {
   readonly actionError = signal('');
   readonly statusFilter = signal<OrderStatus | 'ALL'>('ALL');
   readonly adminName = computed(() => this.authService.currentUser()?.full_name ?? 'Admin');
+  readonly menuEditorOpen = signal(false);
+  readonly menuName = signal('New menu item');
+  readonly menuPrice = signal('');
+  readonly menuDescription = signal('');
+  readonly menuToppings = signal<string[]>([]);
+  readonly newTopping = signal('');
+  readonly menuImageName = signal('');
+  readonly menuEditorMessage = signal('');
 
   readonly filters: Array<{ value: OrderStatus | 'ALL'; label: string }> = [
     { value: 'ALL', label: 'All orders' },
@@ -85,6 +93,69 @@ export class AdminDashboard {
         this.loading.set(false);
       }
     });
+  }
+
+  openMenuEditor(): void {
+    this.menuEditorOpen.set(true);
+    this.menuEditorMessage.set('');
+  }
+
+  closeMenuEditor(): void {
+    this.menuEditorOpen.set(false);
+    this.menuEditorMessage.set('');
+  }
+
+  updateMenuName(event: Event): void {
+    const target = event.currentTarget;
+    if (target instanceof HTMLInputElement) {
+      this.menuName.set(target.value);
+    }
+  }
+
+  updateMenuPrice(event: Event): void {
+    const target = event.currentTarget;
+    if (target instanceof HTMLInputElement) {
+      this.menuPrice.set(target.value);
+    }
+  }
+
+  updateMenuDescription(event: Event): void {
+    const target = event.currentTarget;
+    if (target instanceof HTMLTextAreaElement) {
+      this.menuDescription.set(target.value);
+    }
+  }
+
+  updateNewTopping(event: Event): void {
+    const target = event.currentTarget;
+    if (target instanceof HTMLInputElement) {
+      this.newTopping.set(target.value);
+    }
+  }
+
+  addTopping(): void {
+    const topping = this.newTopping().trim();
+    if (!topping) {
+      return;
+    }
+
+    this.menuToppings.update((toppings) => [...toppings, topping]);
+    this.newTopping.set('');
+  }
+
+  removeTopping(toppingToRemove: string): void {
+    this.menuToppings.update((toppings) => toppings.filter((topping) => topping !== toppingToRemove));
+  }
+
+  selectMenuImage(event: Event): void {
+    const target = event.currentTarget;
+    if (target instanceof HTMLInputElement) {
+      this.menuImageName.set(target.files?.[0]?.name ?? '');
+    }
+  }
+
+  saveMenuPlaceholder(): void {
+    this.menuEditorMessage.set('Menu editing is a placeholder. Changes have not been saved.');
   }
 
   changeStatus(order: AdminOrder, event: Event): void {

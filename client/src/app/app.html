@@ -1,6 +1,10 @@
 <app-navbar />
-<app-cart />
+@if (!isAdminView()) {
+  <app-cart />
+}
 <main>
   <router-outlet />
 </main>
-<app-footer />
+@if (!isAdminView()) {
+  <app-footer />
+}

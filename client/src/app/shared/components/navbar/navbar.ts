@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -10,7 +10,6 @@ import { AuthService } from '../../../core/services/auth-services';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
   imports: [
     CommonModule,
     RouterLink,
@@ -27,6 +26,9 @@ export class Navbar {
   cartService = inject(CartService);
   authService = inject(AuthService); // Inject AuthService
   private router = inject(Router);
+  readonly isAdminView = computed(
+    () => this.authService.currentUser()?.role?.toUpperCase() === 'ADMIN'
+  );
 
   onLogout(): void {
     this.authService.logout(); // Clears localStorage & resets currentUser signal

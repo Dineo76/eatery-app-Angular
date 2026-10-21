@@ -40,8 +40,9 @@ export class Signin {
     this.errorMessage = '';
 
     this.authService.signin(this.email, this.password).subscribe({
-      next: () => {
-        this.router.navigate(['/']);
+      next: (response) => {
+        const destination = response.user.role?.toUpperCase() === 'ADMIN' ? '/admin' : '/';
+        this.router.navigate([destination]);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Invalid email or password.';

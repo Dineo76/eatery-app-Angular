@@ -1,9 +1,9 @@
 <section class="dashboard">
   <header class="page-header">
-    <div>
-      <p class="eyebrow">KwaJozi administration</p>
-      <h1>Orders</h1>
-      <p class="welcome">Welcome back, {{ adminName() }}. Here's what's happening today.</p>
+    <div class="welcome-copy">
+      <p class="eyebrow"><span class="brand-mark" aria-hidden="true">K</span> KwaJozi administration</p>
+      <h1>Dashboard</h1>
+      <p class="welcome">Welcome back, <strong>{{ adminName() }}</strong>. Here’s your restaurant at a glance.</p>
     </div>
     <button class="refresh-button" type="button" (click)="refreshOrders()" [disabled]="loading()">
       <mat-icon aria-hidden="true">refresh</mat-icon>
@@ -30,6 +30,96 @@
     </article>
   </div>
 
+  <section class="menu-management" aria-labelledby="menu-management-heading">
+    <span class="menu-icon"><mat-icon aria-hidden="true">restaurant_menu</mat-icon></span>
+    <div class="menu-copy">
+      <p class="section-kicker">YOUR CATALOG</p>
+      <h2 id="menu-management-heading">Menu management</h2>
+      <p>Add or edit menu item details, images, toppings, and prices.</p>
+    </div>
+    <button class="primary-button" type="button" (click)="openMenuEditor()">
+      <mat-icon aria-hidden="true">edit</mat-icon>
+      Add or edit menu item
+    </button>
+  </section>
+
+  @if (menuEditorOpen()) {
+    <section class="menu-editor" aria-labelledby="menu-editor-heading">
+      <div class="editor-header">
+        <div>
+          <p class="section-kicker">MENU DETAILS</p>
+          <h2 id="menu-editor-heading">Menu item editor</h2>
+          <p>This editor is a placeholder; changes are not saved yet.</p>
+        </div>
+        <button class="text-button close-editor" type="button" (click)="closeMenuEditor()">Close</button>
+      </div>
+
+      <div class="editor-fields">
+        <label>
+          Menu item name
+          <input type="text" [value]="menuName()" (input)="updateMenuName($event)" />
+        </label>
+
+        <label>
+          Price (R)
+          <input type="number" min="0" step="0.01" [value]="menuPrice()" (input)="updateMenuPrice($event)" />
+        </label>
+
+        <label class="description-field">
+          Description
+          <textarea rows="3" [value]="menuDescription()" (input)="updateMenuDescription($event)"></textarea>
+        </label>
+
+        <label class="image-field">
+          Menu picture
+          <input type="file" accept="image/*" (change)="selectMenuImage($event)" />
+          @if (menuImageName()) {
+            <span class="field-hint">Selected: {{ menuImageName() }}</span>
+          }
+        </label>
+
+        <div class="toppings-field">
+          <label for="new-topping">Toppings</label>
+          <div class="topping-entry">
+            <input
+              id="new-topping"
+              type="text"
+              [value]="newTopping()"
+              (input)="updateNewTopping($event)"
+              (keydown.enter)="$event.preventDefault(); addTopping()"
+              placeholder="Add a topping" />
+            <button class="secondary-button" type="button" (click)="addTopping()">Add topping</button>
+          </div>
+          @if (menuToppings().length > 0) {
+            <ul class="topping-list">
+              @for (topping of menuToppings(); track $index) {
+                <li>
+                  <span>{{ topping }}</span>
+                  <button
+                    class="remove-topping"
+                    type="button"
+                    [attr.aria-label]="'Remove ' + topping"
+                    (click)="removeTopping(topping)">
+                    <mat-icon aria-hidden="true">close</mat-icon>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+
+      @if (menuEditorMessage()) {
+        <p class="editor-message" role="status">{{ menuEditorMessage() }}</p>
+      }
+
+      <div class="editor-actions">
+        <button class="secondary-button" type="button" (click)="closeMenuEditor()">Cancel</button>
+        <button class="primary-button" type="button" (click)="saveMenuPlaceholder()">Save menu changes</button>
+      </div>
+    </section>
+  }
+
   @if (loadError()) {
     <div class="alert error" role="alert">
       <mat-icon aria-hidden="true">error_outline</mat-icon>
@@ -54,7 +144,8 @@
 
   <section class="orders-panel" aria-labelledby="orders-heading">
     <div class="panel-header">
-      <div>
+      <div class="orders-title">
+        <p class="section-kicker">LIVE ACTIVITY</p>
         <h2 id="orders-heading">Recent orders</h2>
         <p>Review incoming orders and keep customers up to date.</p>
       </div>

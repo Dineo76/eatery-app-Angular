@@ -1,27 +1,32 @@
 <mat-toolbar color="primary" class="navbar">
-  <span class="logo" routerLink="/">KwaJozi</span>
+  @if (isAdminView()) {
+    <span class="logo">KwaJozi</span>
+  } @else {
+    <span class="logo" routerLink="/">KwaJozi</span>
+  }
 
   <span class="spacer"></span>
 
   <nav class="nav-links">
-    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    @if (!isAdminView()) {
+      <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    }
     <a mat-button routerLink="/menu" routerLinkActive="active">Menu</a>
-    <a mat-button routerLink="/about" routerLinkActive="active">About</a>
-    <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
-
-    @if (authService.currentUser()?.role?.toUpperCase() === 'ADMIN') {
-      <a mat-button routerLink="/admin" routerLinkActive="active">Admin</a>
+    @if (!isAdminView()) {
+      <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+      <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
     }
 
-    <!-- Cart Button with Live Badge Count -->
-    <button mat-icon-button (click)="cartService.toggleCart()" aria-label="Open Shopping Cart">
-      <mat-icon 
-        [matBadge]="cartService.cartCount()" 
-        [matBadgeHidden]="cartService.cartCount() === 0" 
-        matBadgeColor="accent">
-        shopping_cart
-      </mat-icon>
-    </button>
+    @if (!isAdminView()) {
+      <button mat-icon-button (click)="cartService.toggleCart()" aria-label="Open Shopping Cart">
+        <mat-icon
+          [matBadge]="cartService.cartCount()"
+          [matBadgeHidden]="cartService.cartCount() === 0"
+          matBadgeColor="accent">
+          shopping_cart
+        </mat-icon>
+      </button>
+    }
 
     @if (authService.currentUser()) {
       <span class="user-greeting">Hi, {{ authService.currentUser()?.full_name }}</span>
