@@ -1,22 +1,28 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { AuthService } from '../../core/services/auth-services';
 import { CartItem, MenuItem } from '../model/cart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  cart = signal<CartItem[]>([]);
-  isCartOpen = signal<boolean>(false);
+  private readonly authService = inject(AuthService);
+  private readonly cartsByUser = signal<Record<number, CartItem[]>>({});
+  readonly cart = computed(() => {
+    const userId = this.authService.currentUser()?.id;
+    return userId === undefined ? [] : this.cartsByUser()[userId] ?? [];
+  });
+  readonly isCartOpen = signal(false);
 
   // Property aliases for checkout integration
-  cartItems = this.cart;
-  totalAmount = computed(() => this.cartTotal());
+  readonly cartItems = this.cart;
+  readonly totalAmount = computed(() => this.cartTotal());
 
-  cartCount = computed(() =>
+  readonly cartCount = computed(() =>
     this.cart().reduce((acc, item) => acc + item.quantity, 0)
   );
 
-  cartTotal = computed(() =>
+  readonly cartTotal = computed(() =>
     this.cart().reduce((acc, item) => acc + item.item.price * item.quantity, 0)
   );
 
@@ -25,7 +31,7 @@ export class CartService {
   }
 
   addToCart(item: MenuItem): void {
-    this.cart.update((current) => {
+    this.updateCurrentUserCart((current) => {
       const existing = current.find((c) => c.item.id === item.id);
       if (existing) {
         return current.map((c) =>
@@ -37,7 +43,7 @@ export class CartService {
   }
 
   incrementQuantity(itemId: number): void {
-    this.cart.update((current) =>
+    this.updateCurrentUserCart((current) =>
       current.map((c) =>
         c.item.id === itemId ? { ...c, quantity: c.quantity + 1 } : c
       )
@@ -45,7 +51,7 @@ export class CartService {
   }
 
   decrementQuantity(itemId: number): void {
-    this.cart.update((current) =>
+    this.updateCurrentUserCart((current) =>
       current
         .map((c) =>
           c.item.id === itemId ? { ...c, quantity: c.quantity - 1 } : c
@@ -55,10 +61,22 @@ export class CartService {
   }
 
   removeFromCart(itemId: number): void {
-    this.cart.update((current) => current.filter((c) => c.item.id !== itemId));
+    this.updateCurrentUserCart((current) => current.filter((c) => c.item.id !== itemId));
   }
 
   clearCart(): void {
-    this.cart.set([]);
+    this.updateCurrentUserCart(() => []);
+  }
+
+  private updateCurrentUserCart(update: (cart: CartItem[]) => CartItem[]): void {
+    const userId = this.authService.currentUser()?.id;
+    if (userId === undefined) {
+      return;
+    }
+
+    this.cartsByUser.update((carts) => ({
+      ...carts,
+      [userId]: update(carts[userId] ?? [])
+    }));
   }
 }
