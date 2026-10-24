@@ -89,7 +89,7 @@ import {
   provideImgixLoader,
   provideNetlifyLoader,
   registerLocaleData
-} from "./chunk-VVQHXTNY.js";
+} from "./chunk-PAVFPJUY.js";
 import {
   BrowserPlatformLocation,
   DomAdapter,
@@ -99,11 +99,13 @@ import {
   getDOM,
   parseCookieValue,
   setRootDomAdapter
-} from "./chunk-AQKQUMDX.js";
+} from "./chunk-ZVMN7PSK.js";
 import {
-  DOCUMENT,
   IMAGE_CONFIG
-} from "./chunk-LNLIFUU3.js";
+} from "./chunk-XTVEIB27.js";
+import {
+  DOCUMENT
+} from "./chunk-O33P3LJQ.js";
 import "./chunk-6RM4XH5G.js";
 import "./chunk-B62QCB5S.js";
 import "./chunk-DWZ6CA4T.js";

@@ -1,0 +1,222 @@
+.orders-page {
+  width: min(100% - 2rem, 960px);
+  margin: 0 auto;
+  padding: 3rem 0;
+  color: #1e293b;
+}
+
+.page-header,
+.order-header,
+.order-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  color: #236845;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+}
+
+.intro,
+.order-header p {
+  margin-bottom: 0;
+  color: #64748b;
+}
+
+.notifications-panel {
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+.notifications-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.notifications-heading h2 {
+  margin-bottom: 0.35rem;
+  font-size: 1.1rem;
+}
+
+.notifications-heading p,
+.no-notifications {
+  margin-bottom: 0;
+  color: #64748b;
+}
+
+.notifications-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.notification.unread {
+  border-left: 4px solid #236845;
+}
+
+.notification p {
+  margin-bottom: 0.35rem;
+}
+
+.notification time,
+.read-label {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.notification-error {
+  margin-bottom: 0;
+  color: #991b1b;
+}
+
+.orders-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.order-card {
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(15 23 42 / 5%);
+}
+
+.order-header h2 {
+  margin-bottom: 0.35rem;
+  font-size: 1.15rem;
+}
+
+.status-badge {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #854d0e;
+}
+
+.status-confirmed,
+.status-preparing {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-ready,
+.status-completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.order-items {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.25rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.order-footer {
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.state-message {
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #64748b;
+  font-size: 3rem;
+}
+
+.empty-state h2 {
+  margin: 0.75rem 0 0.5rem;
+}
+
+.empty-state p {
+  color: #64748b;
+}
+
+.error-state {
+  color: #991b1b;
+}
+
+@media (max-width: 600px) {
+  .orders-page {
+    padding: 2rem 0;
+  }
+
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .notifications-heading,
+  .notification {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .order-card {
+    padding: 1rem;
+  }
+}

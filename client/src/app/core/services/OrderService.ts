@@ -57,6 +57,15 @@ export interface OrderResponse {
   success: boolean;
 }
 
+export interface OrderStatusNotification {
+  id: number;
+  order_id: number;
+  previous_status: OrderStatus;
+  new_status: OrderStatus;
+  created_at: string;
+  read_at: string | null;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -70,6 +79,21 @@ export class OrderService {
 
   getOrders(): Observable<AdminOrder[]> {
     return this.http.get<AdminOrder[]>(this.apiUrl);
+  }
+
+  getMyOrders(): Observable<AdminOrder[]> {
+    return this.http.get<AdminOrder[]>(`${this.apiUrl}/mine`);
+  }
+
+  getMyOrderNotifications(): Observable<OrderStatusNotification[]> {
+    return this.http.get<OrderStatusNotification[]>(`${this.apiUrl}/mine/notifications`);
+  }
+
+  markOrderNotificationRead(id: number): Observable<{ id: number; read_at: string }> {
+    return this.http.patch<{ id: number; read_at: string }>(
+      `${this.apiUrl}/mine/notifications/${id}/read`,
+      {}
+    );
   }
 
   updateOrderStatus(id: number, status: OrderStatus): Observable<{ id: number; status: OrderStatus }> {

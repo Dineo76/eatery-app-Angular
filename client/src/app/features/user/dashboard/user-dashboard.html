@@ -1,0 +1,109 @@
+<section class="orders-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Your account</p>
+      <h1>My Orders</h1>
+      <p class="intro">Follow the status of your orders and review your order history.</p>
+    </div>
+    <button mat-stroked-button type="button" (click)="refreshOrders()" [disabled]="loading()">
+      <mat-icon>refresh</mat-icon>
+      Refresh
+    </button>
+  </header>
+
+  <section class="notifications-panel" aria-labelledby="notifications-heading">
+    <div class="notifications-heading">
+      <div>
+        <h2 id="notifications-heading">Order updates</h2>
+        <p>Notifications from the restaurant about your orders.</p>
+      </div>
+      <button mat-button type="button" (click)="refreshNotifications()">Refresh updates</button>
+    </div>
+
+    @if (notificationError()) {
+      <p class="notification-error" role="alert">{{ notificationError() }}</p>
+    } @else if (notifications().length === 0) {
+      <p class="no-notifications">No order updates yet.</p>
+    } @else {
+      <ul class="notifications-list">
+        @for (notification of notifications(); track trackNotification($index, notification)) {
+          <li class="notification" [class.unread]="notification.read_at === null">
+            <div>
+              <p>
+                Order #{{ notification.order_id }} changed from
+                <strong>{{ statusLabel(notification.previous_status) }}</strong> to
+                <strong>{{ statusLabel(notification.new_status) }}</strong>.
+              </p>
+              <time [attr.datetime]="notification.created_at">
+                {{ notification.created_at | date:'medium' }}
+              </time>
+            </div>
+            @if (notification.read_at === null) {
+              <button
+                mat-button
+                type="button"
+                (click)="markNotificationRead(notification)">
+                Mark as read
+              </button>
+            } @else {
+              <span class="read-label">Read</span>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  @if (loading()) {
+    <p class="state-message" role="status">Loading your orders...</p>
+  } @else if (loadError()) {
+    <div class="state-message error-state" role="alert">
+      <p>{{ loadError() }}</p>
+      <button mat-button type="button" (click)="refreshOrders()">Try again</button>
+    </div>
+  } @else if (orders().length === 0) {
+    <div class="state-message empty-state">
+      <mat-icon aria-hidden="true">receipt_long</mat-icon>
+      <h2>No orders yet</h2>
+      <p>Your orders will appear here after you place one.</p>
+      <a mat-raised-button color="primary" routerLink="/menu">Explore the menu</a>
+    </div>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders(); track trackOrder($index, order)) {
+        <article class="order-card">
+          <header class="order-header">
+            <div>
+              <h2>Order #{{ order.id }}</h2>
+              <p>Placed {{ order.created_at | date:'medium' }}</p>
+            </div>
+            <span
+              class="status-badge"
+              [class.status-pending]="order.status === 'PENDING'"
+              [class.status-confirmed]="order.status === 'CONFIRMED'"
+              [class.status-preparing]="order.status === 'PREPARING'"
+              [class.status-ready]="order.status === 'READY'"
+              [class.status-completed]="order.status === 'COMPLETED'"
+              [class.status-cancelled]="order.status === 'CANCELLED'">
+              {{ statusLabel(order.status) }}
+            </span>
+          </header>
+
+          <ul class="order-items">
+            @for (item of order.items; track $index) {
+              <li>
+                <span>{{ item.quantity }} × {{ item.name }}</span>
+                <span>{{ item.price * item.quantity | currency:'ZAR':'symbol':'1.2-2' }}</span>
+              </li>
+            }
+          </ul>
+
+          <footer class="order-footer">
+            <span>{{ itemCount(order) }} item{{ itemCount(order) === 1 ? '' : 's' }}</span>
+            <strong>Total: {{ order.total_amount | currency:'ZAR':'symbol':'1.2-2' }}</strong>
+          </footer>
+        </article>
+      }
+    </div>
+  }
+</section>

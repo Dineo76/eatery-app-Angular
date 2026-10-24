@@ -2,10 +2,10 @@ import {
   coerceBooleanProperty
 } from "./chunk-LR34GQVG.js";
 import "./chunk-DYT3SPYG.js";
-import "./chunk-WKFECIY3.js";
 import {
   BidiModule
-} from "./chunk-W5RNOTOT.js";
+} from "./chunk-C6ZMIVOC.js";
+import "./chunk-BGDI6F3K.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,9 +16,11 @@ import {
   ɵɵattribute,
   ɵɵclassProp,
   ɵɵdefineComponent,
-  ɵɵdefineInjector,
   ɵɵdefineNgModule
-} from "./chunk-LNLIFUU3.js";
+} from "./chunk-XTVEIB27.js";
+import {
+  ɵɵdefineInjector
+} from "./chunk-O33P3LJQ.js";
 import "./chunk-6RM4XH5G.js";
 import "./chunk-B62QCB5S.js";
 import "./chunk-DWZ6CA4T.js";

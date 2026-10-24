@@ -15,6 +15,9 @@
     @if (!isAdminView()) {
       <a mat-button routerLink="/about" routerLinkActive="active">About</a>
       <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
+      @if (authService.currentUser()) {
+        <a mat-button routerLink="/dashboard" routerLinkActive="active">My Orders</a>
+      }
     }
 
     @if (!isAdminView()) {
