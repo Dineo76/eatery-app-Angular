@@ -17,24 +17,48 @@
                 <mat-label>Full Name</mat-label>
                 <input matInput formControlName="fullName" placeholder="e.g. Karabo Molefe" />
                 @if (deliveryForm.get('fullName')?.invalid && deliveryForm.get('fullName')?.touched) {
-                  <mat-error>Full name is required</mat-error>
+                  <mat-error>
+                    @if (deliveryForm.get('fullName')?.hasError('required')) {
+                      Enter your full name.
+                    } @else {
+                      Use letters only in your name.
+                    }
+                  </mat-error>
                 }
               </mat-form-field>
 
               <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Phone Number</mat-label>
-                <input matInput formControlName="phone" placeholder="e.g. 0821234567" />
+                <input
+                  matInput
+                  type="tel"
+                  inputmode="numeric"
+                  maxlength="10"
+                  formControlName="phone"
+                  placeholder="e.g. 0821234567" />
                 @if (deliveryForm.get('phone')?.invalid && deliveryForm.get('phone')?.touched) {
-                  <mat-error>Enter a valid 10-digit phone number</mat-error>
+                  <mat-error>
+                    @if (deliveryForm.get('phone')?.hasError('required')) {
+                      Enter your phone number.
+                    } @else {
+                      Enter 10 digits starting with 0.
+                    }
+                  </mat-error>
                 }
               </mat-form-field>
             </div>
 
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Delivery Address</mat-label>
-              <textarea matInput formControlName="address" rows="2" placeholder="Street, Suburb, House/Unit #"></textarea>
+              <textarea matInput formControlName="address" rows="2" placeholder="House number, street name, suburb, postal code"></textarea>
               @if (deliveryForm.get('address')?.invalid && deliveryForm.get('address')?.touched) {
-                <mat-error>Delivery address is required</mat-error>
+                <mat-error>
+                  @if (deliveryForm.get('address')?.hasError('required')) {
+                    Enter your delivery address.
+                  } @else {
+                    Include a house number, street name, suburb, and 4-digit postal code, separated by commas.
+                  }
+                </mat-error>
               }
             </mat-form-field>
 
@@ -70,26 +94,66 @@
               <div class="card-details">
                 <mat-form-field appearance="fill" class="full-width">
                   <mat-label>Card Number</mat-label>
-                  <input matInput formControlName="cardNumber" placeholder="1234 5678 9012 3456" />
+                  <input
+                    matInput
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="10"
+                    formControlName="cardNumber"
+                    placeholder="10 digits" />
                   @if (paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched) {
-                    <mat-error>Card number is required</mat-error>
+                    <mat-error>
+                      @if (paymentForm.get('cardNumber')?.hasError('required')) {
+                        Enter your card number.
+                      } @else {
+                        Enter exactly 10 digits with no spaces or other characters.
+                      }
+                    </mat-error>
                   }
                 </mat-form-field>
 
                 <div class="form-row">
                   <mat-form-field appearance="fill" class="half-width">
                     <mat-label>Expiry Date</mat-label>
-                    <input matInput formControlName="expiry" placeholder="MM/YY" />
+                    <input
+                      matInput
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="7"
+                      formControlName="expiry"
+                      placeholder="MM/YYYY" />
                     @if (paymentForm.get('expiry')?.invalid && paymentForm.get('expiry')?.touched) {
-                      <mat-error>MM/YY required</mat-error>
+                      <mat-error>
+                        @if (paymentForm.get('expiry')?.hasError('required')) {
+                          Enter the card expiry date.
+                        } @else if (paymentForm.get('expiry')?.hasError('expiryYear')) {
+                          The expiry year must be 2026 or later.
+                        } @else if (paymentForm.get('expiry')?.hasError('expiryPast')) {
+                          Enter an expiry date that has not passed.
+                        } @else {
+                          Enter a valid date in MM/YYYY format.
+                        }
+                      </mat-error>
                     }
                   </mat-form-field>
 
                   <mat-form-field appearance="fill" class="half-width">
                     <mat-label>CVV</mat-label>
-                    <input matInput formControlName="cvv" placeholder="123" />
+                    <input
+                      matInput
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="3"
+                      formControlName="cvv"
+                      placeholder="123" />
                     @if (paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched) {
-                      <mat-error>3 digits required</mat-error>
+                      <mat-error>
+                        @if (paymentForm.get('cvv')?.hasError('required')) {
+                          Enter your CVV.
+                        } @else {
+                          Enter exactly 3 digits with no other characters.
+                        }
+                      </mat-error>
                     }
                   </mat-form-field>
                 </div>
@@ -155,7 +219,7 @@
                 <span class="item-qty">{{ cartItem.quantity }}x</span>
                 <span class="item-name">{{ cartItem.item.name }}</span>
               </div>
-              <span class="item-price">R{{ cartItem.item.price * cartItem.quantity }}</span>
+              <span class="item-price">{{ cartItem.item.price * cartItem.quantity | currency:'ZAR':'R':'1.2-2' }}</span>
             </div>
           }
         </div>
@@ -164,19 +228,19 @@
 
         <div class="totals-row">
           <span>Subtotal</span>
-          <span>R{{ cartService.totalAmount() }}</span>
+          <span>{{ cartService.totalAmount() | currency:'ZAR':'R':'1.2-2' }}</span>
         </div>
 
         <div class="totals-row">
           <span>Delivery Fee</span>
-          <span>R{{ deliveryFee }}</span>
+          <span>{{ deliveryFee | currency:'ZAR':'R':'1.2-2' }}</span>
         </div>
 
         <hr class="divider" />
 
         <div class="totals-row grand-total">
           <span>Total</span>
-          <span>R{{ grandTotal }}</span>
+          <span>{{ grandTotal | currency:'ZAR':'R':'1.2-2' }}</span>
         </div>
       </mat-card>
     </div>

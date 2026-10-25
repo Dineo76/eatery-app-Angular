@@ -56,20 +56,34 @@ export class Hero {
 
   onAddressInput(event: Event): void {
     const val = (event.target as HTMLInputElement).value;
+    this.saveDeliveryAddress(val);
     this.searchSubject.next(val);
   }
 
   selectAddress(suggestion: any): void {
     this.deliveryAddress = suggestion.display_name;
+    this.saveDeliveryAddress(this.deliveryAddress);
     this.addressSuggestions = [];
   }
 
   onFindFood(): void {
+    const address = this.deliveryAddress.trim();
+    this.saveDeliveryAddress(address);
+
     this.router.navigate(['/menu'], {
       queryParams: {
-        search: this.deliveryAddress,
+        search: address,
         option: this.deliveryOption
       }
     });
+  }
+
+  private saveDeliveryAddress(address: string): void {
+    const trimmedAddress = address.trim();
+    if (trimmedAddress) {
+      sessionStorage.setItem('deliveryAddress', trimmedAddress);
+    } else {
+      sessionStorage.removeItem('deliveryAddress');
+    }
   }
 }

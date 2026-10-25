@@ -48,7 +48,7 @@ export class AdminDashboard {
     { value: 'CONFIRMED', label: 'Confirmed' },
     { value: 'PREPARING', label: 'Preparing' },
     { value: 'READY', label: 'Ready' },
-    { value: 'COMPLETED', label: 'Completed' },
+    { value: 'COMPLETED', label: 'Delivered' },
     { value: 'CANCELLED', label: 'Cancelled' }
   ];
 

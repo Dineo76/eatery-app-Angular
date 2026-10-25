@@ -16,7 +16,16 @@
       <a mat-button routerLink="/about" routerLinkActive="active">About</a>
       <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
       @if (authService.currentUser()) {
-        <a mat-button routerLink="/dashboard" routerLinkActive="active">My Orders</a>
+        <a
+          mat-button
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          [matBadge]="orderNotificationService.unreadCount()"
+          [matBadgeHidden]="orderNotificationService.unreadCount() === 0"
+          matBadgeColor="accent"
+          aria-label="My Orders, unread updates">
+          My Orders
+        </a>
       }
     }
 
@@ -33,9 +42,13 @@
 
     @if (authService.currentUser()) {
       <span class="user-greeting">Hi, {{ authService.currentUser()?.full_name }}</span>
-      <button mat-stroked-button class="logout-btn" (click)="onLogout()">
+      <button
+        mat-icon-button
+        class="logout-btn"
+        type="button"
+        aria-label="Logout"
+        (click)="onLogout()">
         <mat-icon>logout</mat-icon>
-        <span>Logout</span>
       </button>
     } @else {
       <a mat-raised-button color="accent" routerLink="/signin">Sign In</a>

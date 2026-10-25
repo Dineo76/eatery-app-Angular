@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../../core/services/auth-services';
+import { OrderNotificationService } from '../../../core/services/order-notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,6 +26,7 @@ import { AuthService } from '../../../core/services/auth-services';
 export class Navbar {
   cartService = inject(CartService);
   authService = inject(AuthService); // Inject AuthService
+  readonly orderNotificationService = inject(OrderNotificationService);
   private router = inject(Router);
   readonly isAdminView = computed(
     () => this.authService.currentUser()?.role?.toUpperCase() === 'ADMIN'

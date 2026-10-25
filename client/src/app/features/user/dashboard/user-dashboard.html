@@ -17,6 +17,11 @@
         <h2 id="notifications-heading">Order updates</h2>
         <p>Notifications from the restaurant about your orders.</p>
       </div>
+      @if (unreadNotificationCount() > 0) {
+        <span class="unread-count" aria-live="polite">
+          {{ unreadNotificationCount() }} new update{{ unreadNotificationCount() === 1 ? '' : 's' }}
+        </span>
+      }
       <button mat-button type="button" (click)="refreshNotifications()">Refresh updates</button>
     </div>
 
@@ -66,7 +71,9 @@
       <mat-icon aria-hidden="true">receipt_long</mat-icon>
       <h2>No orders yet</h2>
       <p>Your orders will appear here after you place one.</p>
-      <a mat-raised-button color="primary" routerLink="/menu">Explore the menu</a>
+      <a mat-raised-button color="accent" routerLink="/menu" class="cta-btn">
+        <mat-icon>restaurant_menu</mat-icon> Explore Our Menu
+      </a>
     </div>
   } @else {
     <div class="orders-list">
@@ -93,14 +100,14 @@
             @for (item of order.items; track $index) {
               <li>
                 <span>{{ item.quantity }} × {{ item.name }}</span>
-                <span>{{ item.price * item.quantity | currency:'ZAR':'symbol':'1.2-2' }}</span>
+                <span>{{ item.price * item.quantity | currency:'ZAR':'R':'1.2-2' }}</span>
               </li>
             }
           </ul>
 
           <footer class="order-footer">
             <span>{{ itemCount(order) }} item{{ itemCount(order) === 1 ? '' : 's' }}</span>
-            <strong>Total: {{ order.total_amount | currency:'ZAR':'symbol':'1.2-2' }}</strong>
+            <strong>Total: {{ order.total_amount | currency:'ZAR':'R':'1.2-2' }}</strong>
           </footer>
         </article>
       }

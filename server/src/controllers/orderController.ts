@@ -193,7 +193,7 @@ export const getMyOrderNotifications = async (req: AuthenticatedRequest, res: Re
       `SELECT id, order_id, previous_status, new_status, created_at, read_at
        FROM order_status_notifications
        WHERE user_id = $1
-       ORDER BY created_at DESC`,
+       ORDER BY created_at DESC, id DESC`,
       [req.user.id]
     );
 

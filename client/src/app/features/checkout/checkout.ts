@@ -1,6 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +21,51 @@ import { CartService } from '../../shared/services/cart.service';
 
 // Adjust relative path if order.service.ts lives in core or shared:
 import { OrderService, OrderPayload } from '../../core/services/OrderService';
+
+const deliveryAddressStorageKey = 'deliveryAddress';
+
+function deliveryAddressValidator(control: AbstractControl): ValidationErrors | null {
+  const address = typeof control.value === 'string' ? control.value.trim() : '';
+  if (!address) {
+    return null;
+  }
+
+  const addressParts = address.split(',').map((part: string) => part.trim());
+  const houseAndStreet = addressParts[0] ?? '';
+  const suburb = (addressParts[1] ?? '').replace(/\b\d{4}\b/g, '').trim();
+  const hasHouseNumber = /^\d+[a-zA-Z]?(?:\s|$)/.test(houseAndStreet);
+  const hasStreetName = houseAndStreet.replace(/^\d+[a-zA-Z]?\s*/, '').trim().length > 0;
+  const hasPostalCode = addressParts.slice(1).some((part: string) => /\b\d{4}\b/.test(part));
+
+  return hasHouseNumber && hasStreetName && suburb && hasPostalCode
+    ? null
+    : { addressFormat: true };
+}
+
+function cardExpiryValidator(control: AbstractControl): ValidationErrors | null {
+  const expiry = typeof control.value === 'string' ? control.value : '';
+  if (!expiry) {
+    return null;
+  }
+
+  const match = /^(0[1-9]|1[0-2])\/(\d{4})$/.exec(expiry);
+  if (!match) {
+    return { expiryFormat: true };
+  }
+
+  const month = Number(match[1]);
+  const year = Number(match[2]);
+  if (year < 2026) {
+    return { expiryYear: true };
+  }
+
+  const now = new Date();
+  if (year < now.getFullYear() || (year === now.getFullYear() && month < now.getMonth() + 1)) {
+    return { expiryPast: true };
+  }
+
+  return null;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -46,17 +98,23 @@ export class Checkout implements OnInit {
 
   ngOnInit(): void {
     this.deliveryForm = this.fb.group({
-      fullName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      address: ['', Validators.required],
+      fullName: ['', [
+        Validators.required,
+        Validators.pattern(/^\s*[\p{L}\p{M}]+(?:(?:\s+|['\u2019-])[\p{L}\p{M}]+)*\s*$/u)
+      ]],
+      phone: ['', [Validators.required, Validators.pattern(/^0\d{9}$/)]],
+      address: [sessionStorage.getItem(deliveryAddressStorageKey) ?? '', [
+        Validators.required,
+        deliveryAddressValidator
+      ]],
       notes: ['']
     });
 
     this.paymentForm = this.fb.group({
       paymentMethod: ['card', Validators.required],
-      cardNumber: [''],
-      expiry: [''],
-      cvv: ['']
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      expiry: ['', [Validators.required, cardExpiryValidator]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
     });
 
     this.paymentForm.get('paymentMethod')?.valueChanges.subscribe((method: string) => {

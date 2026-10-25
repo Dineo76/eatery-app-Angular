@@ -1,17 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal, untracked } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { interval } from 'rxjs';
 import {
   AdminOrder,
   OrderService,
   OrderStatus,
   OrderStatusNotification
 } from '../../../core/services/OrderService';
+import { OrderNotificationService } from '../../../core/services/order-notification.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -22,19 +21,30 @@ import {
 })
 export class UserDashboard {
   private readonly orderService = inject(OrderService);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly orderNotificationService = inject(OrderNotificationService);
 
   readonly orders = signal<AdminOrder[]>([]);
-  readonly notifications = signal<OrderStatusNotification[]>([]);
+  readonly notifications = this.orderNotificationService.notifications;
+  readonly unreadNotificationCount = this.orderNotificationService.unreadCount;
   readonly loading = signal(true);
   readonly loadError = signal('');
-  readonly notificationError = signal('');
+  readonly notificationError = this.orderNotificationService.error;
 
   constructor() {
     this.refreshOrders();
-    interval(30_000)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.refreshNotifications());
+    effect(() => {
+      const notifications = this.notifications();
+      const latestStatusByOrder = new Map<number, OrderStatus>();
+      for (const notification of notifications) {
+        if (!latestStatusByOrder.has(notification.order_id)) {
+          latestStatusByOrder.set(notification.order_id, notification.new_status);
+        }
+      }
+      untracked(() => this.orders.update((orders) => orders.map((order) => ({
+        ...order,
+        status: latestStatusByOrder.get(order.id) ?? order.status
+      }))));
+    });
   }
 
   refreshOrders(): void {
@@ -51,28 +61,10 @@ export class UserDashboard {
         this.loading.set(false);
       }
     });
-
-    this.refreshNotifications();
   }
 
   refreshNotifications(): void {
-    this.notificationError.set('');
-    this.orderService.getMyOrderNotifications().subscribe({
-      next: (notifications) => {
-        this.notifications.set(notifications);
-        const latestStatusByOrder = new Map<number, OrderStatus>();
-        for (const notification of notifications) {
-          if (!latestStatusByOrder.has(notification.order_id)) {
-            latestStatusByOrder.set(notification.order_id, notification.new_status);
-          }
-        }
-        this.orders.update((orders) => orders.map((order) => ({
-          ...order,
-          status: latestStatusByOrder.get(order.id) ?? order.status
-        })));
-      },
-      error: (error: unknown) => this.notificationError.set(this.getNotificationErrorMessage(error))
-    });
+    this.orderNotificationService.refresh();
   }
 
   markNotificationRead(notification: OrderStatusNotification): void {
@@ -80,14 +72,7 @@ export class UserDashboard {
       return;
     }
 
-    this.orderService.markOrderNotificationRead(notification.id).subscribe({
-      next: ({ read_at }) => {
-        this.notifications.update((notifications) => notifications.map((current) =>
-          current.id === notification.id ? { ...current, read_at } : current
-        ));
-      },
-      error: (error: unknown) => this.notificationError.set(this.getNotificationErrorMessage(error))
-    });
+    this.orderNotificationService.markRead(notification);
   }
 
   statusLabel(status: OrderStatus): string {
@@ -130,14 +115,4 @@ export class UserDashboard {
     return 'Could not load your orders. Please try again.';
   }
 
-  private getNotificationErrorMessage(error: unknown): string {
-    if (error instanceof HttpErrorResponse) {
-      const message = error.error?.message;
-      if (typeof message === 'string') {
-        return message;
-      }
-    }
-
-    return 'Could not load order notifications. Please try again.';
-  }
 }

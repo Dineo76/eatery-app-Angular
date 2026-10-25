@@ -26,7 +26,7 @@
     </article>
     <article class="stat-card">
       <span class="stat-icon red"><mat-icon aria-hidden="true">payments</mat-icon></span>
-      <div><p>Order revenue</p><strong>{{ revenue() | currency:'ZAR':'symbol-narrow':'1.2-2' }}</strong></div>
+      <div><p>Order revenue</p><strong>{{ revenue() | currency:'ZAR':'R':'1.2-2' }}</strong></div>
     </article>
   </div>
 
@@ -209,7 +209,7 @@
                   }
                 </td>
                 <td class="date-cell">{{ order.created_at | date:'medium' }}</td>
-                <td class="total-cell">{{ order.total_amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}</td>
+                <td class="total-cell">{{ order.total_amount | currency:'ZAR':'R':'1.2-2' }}</td>
                 <td>
                   <label class="visually-hidden" [for]="'status-' + order.id">
                     Update status for order {{ order.id }}

@@ -70,6 +70,16 @@ h1 {
   color: #64748b;
 }
 
+.unread-count {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .notifications-list {
   display: grid;
   gap: 0.75rem;
@@ -182,7 +192,7 @@ h1 {
   text-align: center;
 }
 
-.empty-state mat-icon {
+.empty-state > mat-icon {
   width: 3rem;
   height: 3rem;
   color: #64748b;
@@ -195,6 +205,23 @@ h1 {
 
 .empty-state p {
   color: #64748b;
+}
+
+.cta-btn,
+a.cta-btn[mat-raised-button] {
+  --mdc-protected-button-container-color: #236845 !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
+  background-color: #236845 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-radius: var(--border-radius-btn) !important;
+  padding: 0 20px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.cta-btn:hover,
+a.cta-btn[mat-raised-button]:hover {
+  background-color: #1b5236 !important;
 }
 
 .error-state {

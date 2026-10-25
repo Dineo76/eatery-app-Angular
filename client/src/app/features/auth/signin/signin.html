@@ -5,10 +5,10 @@
     <p class="error-text" style="color: red; margin-bottom: 1rem;">{{ errorMessage }}</p>
   }
 
-  <form (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" autocomplete="off">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email Address</mat-label>
-      <input matInput type="email" name="email" [(ngModel)]="email" required />
+      <input matInput type="email" name="email" autocomplete="off" [(ngModel)]="email" required />
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -17,6 +17,7 @@
         matInput 
         [type]="hidePassword ? 'password' : 'text'" 
         name="password" 
+        autocomplete="new-password"
         [(ngModel)]="password" 
         required 
       />
